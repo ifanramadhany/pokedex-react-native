@@ -1,0 +1,21 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "src/assets/fonts/Courier Prime Bold Italic.ttf",
+      "sha1": "43f23ac849388083c0b6ebc91bc55ff5047b536b"
+    },
+    {
+      "path": "src/assets/fonts/Courier Prime Bold.ttf",
+      "sha1": "8029adb48fc8d0e0fc7658b38102260a0f10cabc"
+    },
+    {
+      "path": "src/assets/fonts/Courier Prime Italic.ttf",
+      "sha1": "27aac0ee6dbe1af6db334a51b38d11f3bf6f8b41"
+    },
+    {
+      "path": "src/assets/fonts/Courier Prime.ttf",
+      "sha1": "c2fe1ecdf37e1967dd5026d4c2ff6aec9d378459"
+    }
+  ]
+}
