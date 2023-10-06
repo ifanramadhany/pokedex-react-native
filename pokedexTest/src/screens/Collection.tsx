@@ -11,12 +11,23 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  View,
   useColorScheme,
+  ScrollView,
 } from 'react-native';
 
-import {responsiveWidth, COLORS} from '../utils';
+import {responsiveWidth, responsiveHeight, COLORS} from '../utils';
 
-const Collection = () => {
+import {CollectionCard} from '../components';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../App';
+
+type ProfileProps = NativeStackScreenProps<
+  RootStackParamList,
+  'DetailMyCollection'
+>;
+
+const Collection = ({navigation, route}: ProfileProps) => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -29,7 +40,24 @@ const Collection = () => {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
-      <Text style={{color: COLORS.blue}}>Collection</Text>
+      <View style={styles.searchWrapper}>
+        <View style={styles.searchWrapperInside}>
+          <Text style={styles.title}>Your Pokémon</Text>
+        </View>
+      </View>
+      <ScrollView
+        style={styles.scrollViewStyle}
+        contentInsetAdjustmentBehavior="automatic">
+        <View style={styles.listWrapper}>
+          <CollectionCard navigation={navigation} route={route} />
+          <CollectionCard navigation={navigation} route={route} />
+          <CollectionCard navigation={navigation} route={route} />
+          <CollectionCard navigation={navigation} route={route} />
+          <CollectionCard navigation={navigation} route={route} />
+          <CollectionCard navigation={navigation} route={route} />
+          <CollectionCard navigation={navigation} route={route} />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -37,42 +65,57 @@ const Collection = () => {
 const styles = StyleSheet.create({
   safeAreaViewStyle: {
     flex: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingTop: responsiveWidth(140),
-    paddingBottom: responsiveWidth(70),
-    paddingHorizontal: responsiveWidth(15),
-    gap: responsiveWidth(8),
-  },
-  container: {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  wrapperOwnerName: {
-    width: '120%',
-    alignItems: 'flex-end',
-  },
-  wrapperPkmnIcon: {
+  scrollViewStyle: {
     width: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: responsiveWidth(45),
+    padding: responsiveWidth(4),
   },
-  wrapperBtnStart: {
+  searchWrapper: {
     width: '100%',
-    borderRadius: responsiveWidth(12),
-    height: 'auto',
-    padding: responsiveWidth(10),
+    height: responsiveHeight(70),
     backgroundColor: COLORS.blue,
-    flexDirection: 'row',
+    elevation: 30,
+    paddingBottom: 1,
+  },
+  title: {
+    fontSize: responsiveWidth(18),
+    color: COLORS.white,
+    fontFamily: 'Nokia Cellphone FC',
+  },
+  searchWrapperInside: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: COLORS.light_blue,
+    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: responsiveWidth(8),
   },
-  btnStart: {
-    fontSize: responsiveWidth(20),
-    color: COLORS.white,
-    fontFamily: 'Courier Prime Bold',
+  pokedex: {
+    position: 'absolute',
+    left: '61%',
+    top: '-50%',
+  },
+  inputSearch: {
+    height: 'auto',
+    zIndex: 1,
+    paddingHorizontal: responsiveWidth(10),
+    paddingVertical: responsiveWidth(6),
+    marginBottom: responsiveWidth(20),
+    marginHorizontal: responsiveWidth(10),
+    borderRadius: responsiveWidth(10),
+    borderWidth: 2,
+    borderColor: COLORS.light_grey,
+    backgroundColor: COLORS.white,
+    fontFamily: 'Minecraftia-Regular',
+    fontSize: responsiveWidth(12),
+  },
+  listWrapper: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
   },
 });
 

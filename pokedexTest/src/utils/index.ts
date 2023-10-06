@@ -18,6 +18,11 @@ export const COLORS = {
   yellow: '#FFCC01',
   pink: '#ED5564',
   grey: '#B4B4B3',
+  beige: '#FFFBE9',
+  red: '#D80032',
+  green: '#00DFA2',
   light_blue: '#6499E9',
   light_grey: '#D8D9DA',
+  transparent_grey: 'rgba(25, 25, 23, 0.65)',
+  transparent_blue: 'rgba(55, 93, 170, 0.6)',
 };

@@ -22,6 +22,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {responsiveHeight, responsiveWidth, COLORS} from '../utils';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../App';
+import LottieView from 'lottie-react-native';
 
 type ProfileProps = NativeStackScreenProps<RootStackParamList, 'Main'>;
 
@@ -46,11 +47,17 @@ const Welcome = ({navigation}: ProfileProps) => {
         <View style={styles.wrapperOwnerName}>
           <Text>By MarkZuckerberg</Text>
         </View>
+        <LottieView
+          style={styles.lottieCongratulation}
+          source={require('../assets/lotties/failed_animation.json')}
+          autoPlay
+          loop
+        />
       </View>
       <TouchableOpacity
         style={styles.wrapperBtnStart}
         onPress={() => {
-          navigation.navigate('Main');
+          navigation.navigate('Main', {screen: 'Main'});
         }}>
         <Text style={styles.btnStart}>Let's Begin</Text>
         <MaterialIcons
@@ -73,6 +80,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: responsiveWidth(15),
     gap: responsiveWidth(8),
   },
+  lottieCongratulation: {
+    width: responsiveWidth(550),
+    height: responsiveHeight(550),
+    position: 'absolute',
+    top: '-110%',
+  },
   container: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -89,7 +102,7 @@ const styles = StyleSheet.create({
   },
   wrapperBtnStart: {
     width: '100%',
-    borderRadius: responsiveWidth(12),
+    borderRadius: responsiveWidth(100),
     height: 'auto',
     padding: responsiveWidth(12),
     backgroundColor: COLORS.blue,

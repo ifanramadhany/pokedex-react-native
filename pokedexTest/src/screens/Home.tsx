@@ -22,7 +22,11 @@ import {responsiveWidth, responsiveHeight, COLORS} from '../utils';
 import Pokedex from '../assets/svgs/pokedex.svg';
 import {Card} from '../components';
 
-const Home = () => {
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamList} from '../App';
+
+type ProfileProps = NativeStackScreenProps<RootStackParamList, 'Detail'>;
+const Home = ({navigation, route}: ProfileProps) => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
@@ -53,22 +57,25 @@ const Home = () => {
         style={styles.scrollViewStyle}
         contentInsetAdjustmentBehavior="automatic">
         <View style={styles.listWrapper}>
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
-          <Card />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
+          <Card navigation={navigation} route={route} />
         </View>
       </ScrollView>
     </SafeAreaView>
