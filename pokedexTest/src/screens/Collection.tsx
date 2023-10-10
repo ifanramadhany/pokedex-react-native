@@ -15,17 +15,9 @@ import {
   useColorScheme,
   ScrollView,
 } from 'react-native';
-
 import {responsiveWidth, responsiveHeight, COLORS} from '../utils';
-
 import {CollectionCard} from '../components';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../App';
-
-type ProfileProps = NativeStackScreenProps<
-  RootStackParamList,
-  'DetailMyCollection'
->;
+import {ProfileProps} from '../ts/types';
 
 const Collection = ({navigation, route}: ProfileProps) => {
   const isDarkMode = useColorScheme() === 'dark';

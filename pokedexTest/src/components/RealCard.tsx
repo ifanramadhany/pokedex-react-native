@@ -11,55 +11,45 @@ import {responsiveWidth, responsiveHeight, COLORS} from '../utils';
 import Pokedex from '../assets/svgs/pokedex.svg';
 import {ProfileProps} from '../ts/types';
 
-const CollectionCard = ({navigation}: ProfileProps) => {
+const RealCard = ({navigation}: ProfileProps) => {
   const imageUrl =
     'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png';
-
-  const nickName = 'Jackson';
 
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('DetailMyCollection');
+        navigation.navigate('Detail');
       }}
       style={styles.card}>
       <View style={styles.contentCard}>
-        <View style={styles.imgAndDetail}>
+        <View style={styles.nameAndNumber}>
+          <Text numberOfLines={1} style={styles.name}>
+            Bulbasaur
+          </Text>
+          <Text numberOfLines={1} style={styles.number}>
+            #001
+          </Text>
+        </View>
+        <View style={styles.skillsAndImg}>
+          <View style={styles.skills}>
+            <Text style={styles.skill}>Grass</Text>
+            <Text style={styles.skill}>Poison</Text>
+          </View>
           <View style={styles.img}>
             <Image
               style={{
-                width: responsiveWidth(62),
-                height: responsiveHeight(62),
+                width: responsiveWidth(75),
+                height: responsiveHeight(75),
               }}
               source={{
                 uri: imageUrl,
               }}
             />
           </View>
-          <View style={styles.nameNumberSkills}>
-            <View style={styles.nameNicknameNumber}>
-              <View style={styles.nameNickname}>
-                <Text numberOfLines={1} style={styles.name}>
-                  Bulbasaur
-                </Text>
-                <Text numberOfLines={1} style={styles.nickName}>
-                  ({nickName})
-                </Text>
-              </View>
-              <Text numberOfLines={1} style={styles.number}>
-                #001
-              </Text>
-            </View>
-            <View style={styles.skills}>
-              <Text style={styles.skill}>Grass</Text>
-              <Text style={styles.skill}>Poison</Text>
-            </View>
-          </View>
         </View>
-
         <Pokedex
-          width={responsiveWidth(145)}
-          height={responsiveHeight(145)}
+          width={responsiveWidth(180)}
+          height={responsiveHeight(180)}
           style={styles.pokedexInCard}
         />
       </View>
@@ -69,52 +59,36 @@ const CollectionCard = ({navigation}: ProfileProps) => {
 
 const styles = StyleSheet.create({
   pokedexInCard: {
-    position: 'absolute',
     transform: [{rotate: '10deg'}],
-    left: '75%',
-    top: '-8%',
+    position: 'absolute',
+    left: '55%',
+    top: 0,
   },
-  imgAndDetail: {
+  nameAndNumber: {
     width: '100%',
     zIndex: 1,
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
-  },
-  nameNumberSkills: {
-    width: '100%',
-    zIndex: 1,
-    paddingHorizontal: responsiveWidth(15),
-    display: 'flex',
-  },
-  nameNicknameNumber: {
-    width: '85%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  nameNickname: {
-    flexDirection: 'row',
-    gap: responsiveWidth(5),
   },
   name: {
     fontFamily: 'Minecraftia-Regular',
     color: COLORS.white,
-    minWidth: responsiveWidth(60),
-    maxWidth: responsiveWidth(120),
-  },
-  nickName: {
-    fontFamily: 'Minecraftia-Regular',
-    color: COLORS.yellow,
-    width: responsiveWidth(110),
+    width: responsiveWidth(115),
   },
   number: {
     fontFamily: 'Minecraftia-Regular',
     color: COLORS.blue,
     fontSize: responsiveWidth(17),
   },
+  skillsAndImg: {
+    width: '100%',
+    height: responsiveHeight(80),
+    flexDirection: 'row',
+    zIndex: 1,
+  },
   skills: {
     width: 'auto',
-    flexDirection: 'row',
     gap: responsiveWidth(6),
   },
   skill: {
@@ -127,9 +101,8 @@ const styles = StyleSheet.create({
     fontSize: responsiveWidth(12),
   },
   img: {
-    width: 'auto',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex: 1,
+    alignItems: 'flex-end',
   },
   contentCard: {
     width: '100%',
@@ -138,11 +111,11 @@ const styles = StyleSheet.create({
     padding: responsiveWidth(10),
   },
   card: {
-    width: '100%',
-    height: responsiveHeight(100),
+    width: '50%',
+    height: responsiveHeight(130),
     padding: responsiveWidth(4),
     backgroundColor: COLORS.white,
   },
 });
 
-export default CollectionCard;
+export default RealCard;

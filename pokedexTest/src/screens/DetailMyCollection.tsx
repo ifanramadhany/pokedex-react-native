@@ -14,15 +14,12 @@ import Pokedex from '../assets/svgs/pokedex.svg';
 import FavoriteStar from '../assets/svgs/favorite_star.svg';
 import {COLORS, responsiveHeight, responsiveWidth} from '../utils';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../App';
 import {
   AboutContainer,
   MovesContainer,
   BaseStatusContainer,
 } from '../components';
-
-type ProfileProps = NativeStackScreenProps<RootStackParamList, 'Main'>;
+import {ProfileProps, renderTabBarProps, RouteType} from '../ts/types';
 
 const renderScene = SceneMap({
   about: AboutContainer,
@@ -34,7 +31,7 @@ export default function DetailMyCollection({navigation}: ProfileProps) {
   const layout = useWindowDimensions();
 
   const [index, setIndex] = useState(0);
-  const [routes] = useState([
+  const [routes] = useState<RouteType>([
     {key: 'about', title: 'About'},
     {key: 'baseStatus', title: 'Base Status'},
     {key: 'moves', title: 'Moves'},
@@ -49,7 +46,7 @@ export default function DetailMyCollection({navigation}: ProfileProps) {
   const imageUrl =
     'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png';
 
-  const renderTabBar = (props: any) => (
+  const renderTabBar = (props: renderTabBarProps) => (
     <TabBar
       {...props}
       indicatorStyle={{backgroundColor: COLORS.blue}}

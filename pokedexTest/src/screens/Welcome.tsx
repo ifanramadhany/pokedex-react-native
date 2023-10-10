@@ -15,16 +15,10 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
-
 import PokemonIcon from '../assets/svgs/pokemon_logo.svg';
-
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {responsiveHeight, responsiveWidth, COLORS} from '../utils';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../App';
-import LottieView from 'lottie-react-native';
-
-type ProfileProps = NativeStackScreenProps<RootStackParamList, 'Main'>;
+import {ProfileProps} from '../ts/types';
 
 const Welcome = ({navigation}: ProfileProps) => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -47,12 +41,6 @@ const Welcome = ({navigation}: ProfileProps) => {
         <View style={styles.wrapperOwnerName}>
           <Text>By MarkZuckerberg</Text>
         </View>
-        <LottieView
-          style={styles.lottieCongratulation}
-          source={require('../assets/lotties/failed_animation.json')}
-          autoPlay
-          loop
-        />
       </View>
       <TouchableOpacity
         style={styles.wrapperBtnStart}
@@ -79,12 +67,6 @@ const styles = StyleSheet.create({
     paddingBottom: responsiveWidth(70),
     paddingHorizontal: responsiveWidth(15),
     gap: responsiveWidth(8),
-  },
-  lottieCongratulation: {
-    width: responsiveWidth(550),
-    height: responsiveHeight(550),
-    position: 'absolute',
-    top: '-110%',
   },
   container: {
     justifyContent: 'center',

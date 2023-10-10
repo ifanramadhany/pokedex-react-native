@@ -13,7 +13,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Welcome, Main, Detail, DetailMyCollection} from './screens';
 
 export type MainScreenType = {
-  screen: 'Main' | 'Collection';
+  screen: 'Main' | 'Collection' | 'My Collection';
 };
 
 export type RootStackParamList = {

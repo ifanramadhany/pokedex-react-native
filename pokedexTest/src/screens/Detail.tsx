@@ -14,16 +14,13 @@ import {
 import Pokedex from '../assets/svgs/pokedex.svg';
 import {COLORS, responsiveHeight, responsiveWidth} from '../utils';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../App';
 import {
   AboutContainer,
   MovesContainer,
   BaseStatusContainer,
 } from '../components';
 import LottieView from 'lottie-react-native';
-
-type ProfileProps = NativeStackScreenProps<RootStackParamList, 'Main'>;
+import {renderTabBarProps, ProfileProps, RouteType} from '../ts/types';
 
 const renderScene = SceneMap({
   about: AboutContainer,
@@ -33,9 +30,9 @@ const renderScene = SceneMap({
 
 export default function Detail({navigation}: ProfileProps) {
   const layout = useWindowDimensions();
-  const [catchMModal, setCatchModal] = useState(false);
-  const [index, setIndex] = useState(0);
-  const [routes] = useState([
+  const [catchMModal, setCatchModal] = useState<boolean>(false);
+  const [index, setIndex] = useState<number>(0);
+  const [routes] = useState<RouteType>([
     {key: 'about', title: 'About'},
     {key: 'baseStatus', title: 'Base Status'},
     {key: 'moves', title: 'Moves'},
@@ -50,7 +47,7 @@ export default function Detail({navigation}: ProfileProps) {
   const imageUrl =
     'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png';
 
-  const renderTabBar = (props: any) => (
+  const renderTabBar = (props: renderTabBarProps) => (
     <TabBar
       {...props}
       indicatorStyle={{backgroundColor: COLORS.blue}}
@@ -89,7 +86,7 @@ export default function Detail({navigation}: ProfileProps) {
             onPress={() => {
               setCatchModal(false);
             }}
-            style={{zIndex: 6}}>
+            style={styles.catchButton}>
             Catch Modal
           </Text>
         </View>
@@ -152,6 +149,9 @@ export default function Detail({navigation}: ProfileProps) {
 }
 
 const styles = StyleSheet.create({
+  catchButton: {
+    zIndex: 6,
+  },
   lottiePokeBall: {
     width: responsiveWidth(700),
     height: responsiveHeight(700),
