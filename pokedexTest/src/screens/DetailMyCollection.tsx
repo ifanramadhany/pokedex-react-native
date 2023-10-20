@@ -93,8 +93,8 @@ export default function DetailMyCollection({navigation}: ProfileProps) {
         <View style={styles.img}>
           <Image
             style={{
-              width: responsiveWidth(220),
-              height: responsiveHeight(220),
+              width: responsiveWidth(250),
+              height: responsiveHeight(250),
             }}
             source={{
               uri: imageUrl,
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     height: responsiveHeight(100),
     backgroundColor: COLORS.beige,
     paddingHorizontal: responsiveWidth(20),
-    paddingVertical: responsiveWidth(20),
+    paddingVertical: responsiveWidth(23),
     justifyContent: 'center',
     flexDirection: 'row',
     gap: responsiveWidth(15),

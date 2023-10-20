@@ -39,7 +39,7 @@ const Welcome = ({navigation}: ProfileProps) => {
           height={responsiveHeight(150)}
         />
         <View style={styles.wrapperOwnerName}>
-          <Text>By MarkZuckerberg</Text>
+          <Text style={styles.ownerName}>by Ifan Ramadhany</Text>
         </View>
       </View>
       <TouchableOpacity
@@ -73,8 +73,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   wrapperOwnerName: {
-    width: '120%',
+    width: '115%',
     alignItems: 'flex-end',
+  },
+  ownerName: {
+    color: COLORS.blue,
+    fontSize: responsiveWidth(10),
   },
   wrapperPkmnIcon: {
     width: '100%',

@@ -12,7 +12,12 @@ import {
   Modal,
 } from 'react-native';
 import Pokedex from '../assets/svgs/pokedex.svg';
-import {COLORS, responsiveHeight, responsiveWidth} from '../utils';
+import {
+  COLORS,
+  convertNumber,
+  responsiveHeight,
+  responsiveWidth,
+} from '../utils';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   AboutContainer,
@@ -21,6 +26,8 @@ import {
 } from '../components';
 import LottieView from 'lottie-react-native';
 import {renderTabBarProps, ProfileProps, RouteType} from '../ts/types';
+import rootStore from '../stores/_RootStore';
+import {Observer} from 'mobx-react';
 
 const renderScene = SceneMap({
   about: AboutContainer,
@@ -29,6 +36,7 @@ const renderScene = SceneMap({
 });
 
 export default function Detail({navigation}: ProfileProps) {
+  const {pokemonStore} = rootStore;
   const layout = useWindowDimensions();
   const [catchMModal, setCatchModal] = useState<boolean>(false);
   const [index, setIndex] = useState<number>(0);
@@ -44,8 +52,7 @@ export default function Detail({navigation}: ProfileProps) {
     backgroundColor: isDarkMode ? COLORS.black : COLORS.white,
   };
 
-  const imageUrl =
-    'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png';
+  const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonStore.pokemonDetail.id}.png`;
 
   const renderTabBar = (props: renderTabBarProps) => (
     <TabBar
@@ -59,92 +66,98 @@ export default function Detail({navigation}: ProfileProps) {
   );
 
   return (
-    <SafeAreaView style={styles.safeAreaViewStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <Modal transparent={true} visible={catchMModal}>
-        <View style={styles.catchModal}>
-          <LottieView
-            style={styles.lottiePokeBall}
-            source={require('../assets/lotties/congratulation_animation.json')}
-            autoPlay
-            loop
+    <Observer>
+      {() => (
+        <SafeAreaView style={styles.safeAreaViewStyle}>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor={backgroundStyle.backgroundColor}
           />
-          <Image
-            style={{
-              transform: [{scale: catchMModal ? 1.5 : 0}],
-              width: responsiveWidth(220),
-              height: responsiveHeight(220),
-            }}
-            source={{
-              uri: imageUrl,
-            }}
-          />
-          <Text
-            onPress={() => {
-              setCatchModal(false);
-            }}
-            style={styles.catchButton}>
-            Catch Modal
-          </Text>
-        </View>
-      </Modal>
-      <View style={styles.wrapperDetail}>
-        <View style={styles.backButton}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              navigation.navigate('Main', {screen: 'Main'});
-            }}>
-            <MaterialIcons
-              name="arrow-back-ios-new"
-              size={responsiveWidth(30)}
-              color={COLORS.white}
+          <Modal transparent={true} visible={catchMModal}>
+            <View style={styles.catchModal}>
+              <LottieView
+                style={styles.lottiePokeBall}
+                source={require('../assets/lotties/congratulation_animation.json')}
+                autoPlay
+                loop
+              />
+              <Image
+                style={{
+                  transform: [{scale: catchMModal ? 1.5 : 0}],
+                  width: responsiveWidth(220),
+                  height: responsiveHeight(220),
+                }}
+                source={{
+                  uri: imageUrl,
+                }}
+              />
+              <Text
+                onPress={() => {
+                  setCatchModal(false);
+                }}
+                style={styles.catchButton}>
+                Catch Modal
+              </Text>
+            </View>
+          </Modal>
+          <View style={styles.wrapperDetail}>
+            <View style={styles.backButton}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  navigation.navigate('Main', {screen: 'Main'});
+                }}>
+                <MaterialIcons
+                  name="arrow-back-ios-new"
+                  size={responsiveWidth(30)}
+                  color={COLORS.white}
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={styles.numberAndName}>
+              <Text style={styles.number}>
+                #{convertNumber(pokemonStore.pokemonDetail.id)}
+              </Text>
+              <Text style={styles.name}>{pokemonStore.pokemonDetail.name}</Text>
+            </View>
+            <View style={styles.img}>
+              <Image
+                style={{
+                  transform: [{scale: catchMModal ? 0 : 1}],
+                  width: responsiveWidth(250),
+                  height: responsiveHeight(250),
+                }}
+                source={{
+                  uri: imageUrl,
+                }}
+              />
+            </View>
+            <View style={styles.imgStand} />
+            <Pokedex
+              width={responsiveWidth(600)}
+              height={responsiveHeight(600)}
+              style={styles.pokedex}
             />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.numberAndName}>
-          <Text style={styles.number}>#001</Text>
-          <Text style={styles.name}>Bulbasaur</Text>
-        </View>
-        <View style={styles.img}>
-          <Image
-            style={{
-              transform: [{scale: catchMModal ? 0 : 1}],
-              width: responsiveWidth(220),
-              height: responsiveHeight(220),
-            }}
-            source={{
-              uri: imageUrl,
-            }}
+          </View>
+          <TabView
+            navigationState={{index, routes}}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            initialLayout={{width: layout.width}}
+            renderTabBar={renderTabBar}
           />
-        </View>
-        <View style={styles.imgStand} />
-        <Pokedex
-          width={responsiveWidth(600)}
-          height={responsiveHeight(600)}
-          style={styles.pokedex}
-        />
-      </View>
-      <TabView
-        navigationState={{index, routes}}
-        renderScene={renderScene}
-        onIndexChange={setIndex}
-        initialLayout={{width: layout.width}}
-        renderTabBar={renderTabBar}
-      />
-      <View style={styles.wrapperButton}>
-        <TouchableOpacity
-          onPress={() => {
-            setCatchModal(true);
-          }}
-          style={styles.wrapperBtnCatch}>
-          <Text style={styles.btnCatch}>Catch</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+          <View style={styles.wrapperButton}>
+            <TouchableOpacity
+              onPress={() => {
+                setCatchModal(true);
+              }}
+              style={styles.wrapperBtnCatch}>
+              <Text style={styles.btnCatch}>Catch</Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      )}
+    </Observer>
   );
 }
 
@@ -183,7 +196,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: responsiveWidth(20),
     justifyContent: 'center',
   },
-
   pokedex: {
     position: 'absolute',
     left: '-10%',
@@ -219,6 +231,7 @@ const styles = StyleSheet.create({
     color: COLORS.blue,
     fontSize: responsiveWidth(25),
     paddingHorizontal: responsiveWidth(20),
+    textTransform: 'capitalize',
   },
   img: {
     color: COLORS.black,

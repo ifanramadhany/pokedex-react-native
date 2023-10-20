@@ -5,41 +5,66 @@
  * @format
  */
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import {responsiveWidth, responsiveHeight, COLORS} from '../utils';
+import {
+  responsiveWidth,
+  responsiveHeight,
+  COLORS,
+  convertNumber,
+} from '../utils';
 import Pokedex from '../assets/svgs/pokedex.svg';
-import {ProfileProps} from '../ts/types';
+import {RealCardProps} from '../ts/types';
+import rootStore from '../stores/_RootStore';
 
-const RealCard = ({navigation}: ProfileProps) => {
-  const imageUrl =
-    'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png';
+const RealCard = ({navigation, item}: RealCardProps) => {
+  const {pokemonStore} = rootStore;
+  const [pokemonDetail, setPokeomnDetail] = useState<any>();
+
+  const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonDetail?.id}.png`;
+
+  useEffect(() => {
+    setPokeomnDetail(item);
+  }, [item]);
+
+  const toDetailPage = () => {
+    pokemonStore.setPokemonDetail(item);
+    navigation.navigate('Detail');
+  };
 
   return (
     <TouchableOpacity
       onPress={() => {
-        navigation.navigate('Detail');
+        toDetailPage();
       }}
       style={styles.card}>
       <View style={styles.contentCard}>
         <View style={styles.nameAndNumber}>
           <Text numberOfLines={1} style={styles.name}>
-            Bulbasaur
+            {pokemonDetail?.name}
           </Text>
           <Text numberOfLines={1} style={styles.number}>
-            #001
+            #{convertNumber(pokemonDetail?.id)}
           </Text>
         </View>
         <View style={styles.skillsAndImg}>
           <View style={styles.skills}>
-            <Text style={styles.skill}>Grass</Text>
-            <Text style={styles.skill}>Poison</Text>
+            <Text style={styles.skill}>
+              {pokemonDetail?.types[0]
+                ? pokemonDetail?.types[0].type.name
+                : '-'}
+            </Text>
+            <Text style={styles.skill}>
+              {pokemonDetail?.types[1]
+                ? pokemonDetail?.types[1].type.name
+                : '-'}
+            </Text>
           </View>
           <View style={styles.img}>
             <Image
               style={{
-                width: responsiveWidth(75),
-                height: responsiveHeight(75),
+                width: responsiveWidth(90),
+                height: responsiveHeight(90),
               }}
               source={{
                 uri: imageUrl,
@@ -75,6 +100,8 @@ const styles = StyleSheet.create({
     fontFamily: 'Minecraftia-Regular',
     color: COLORS.white,
     width: responsiveWidth(115),
+    fontSize: responsiveWidth(16),
+    textTransform: 'capitalize',
   },
   number: {
     fontFamily: 'Minecraftia-Regular',
@@ -99,10 +126,12 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontFamily: 'Minecraftia-Regular',
     fontSize: responsiveWidth(12),
+    textAlign: 'center',
   },
   img: {
     flex: 1,
     alignItems: 'flex-end',
+    top: -10,
   },
   contentCard: {
     width: '100%',

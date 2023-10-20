@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Key} from 'react';
 import {
   PressableAndroidRippleConfig,
   StyleProp,
@@ -13,10 +13,30 @@ import {
   TabBarItemProps,
 } from 'react-native-tab-view';
 
+import {RouteProp} from '@react-navigation/native';
+
 import {Scene, Event} from 'react-native-tab-view/lib/typescript/src/types';
 
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../App';
+import {
+  NativeStackScreenProps,
+  NativeStackNavigationProp,
+} from '@react-navigation/native-stack';
+
+export type MainScreenType = {
+  screen: 'Main' | 'Collection' | 'My Collection';
+};
+
+export type ProfileProps = NativeStackScreenProps<
+  RootStackParamList,
+  'Main' | 'DetailMyCollection' | 'Detail' | 'Welcome'
+>;
+
+export type RootStackParamList = {
+  Welcome: undefined;
+  Main: MainScreenType;
+  Detail: undefined;
+  DetailMyCollection: undefined;
+};
 
 export type renderTabBarProps = React.JSX.IntrinsicAttributes &
   SceneRendererProps & {
@@ -65,9 +85,69 @@ export type renderTabBarProps = React.JSX.IntrinsicAttributes &
     android_ripple?: PressableAndroidRippleConfig | undefined;
   };
 
-export type ProfileProps = NativeStackScreenProps<
-  RootStackParamList,
-  'Main' | 'DetailMyCollection' | 'Detail' | 'Welcome'
->;
+type PokemonType = {
+  name: string;
+  url?: string;
+};
+
+type IntrinsicAttributes = React.JSX.IntrinsicAttributes;
+
+export type CardProps = IntrinsicAttributes & {
+  name: Key | null | undefined;
+  key: Key | null | undefined;
+  navigation: NativeStackNavigationProp<
+    RootStackParamList,
+    'Detail',
+    undefined
+  >;
+  route: RouteProp<RootStackParamList, 'Detail'>;
+  item: PokemonType;
+};
+
+export type RealCardProps = {
+  navigation: NativeStackNavigationProp<
+    RootStackParamList,
+    'Detail',
+    undefined
+  >;
+  item: any[] | {} | null;
+};
 
 export type RouteType = {key: string; title: string}[];
+
+export type ApiResponse = {
+  results: any[];
+  next: string;
+  previous: string;
+};
+
+export type MovesProps = {
+  move: {
+    name:
+      | string
+      | number
+      | boolean
+      | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+      | Iterable<React.ReactNode>
+      | React.ReactPortal
+      | null
+      | undefined;
+  };
+};
+
+export type StatProps = {
+  stat: {
+    name:
+      | string
+      | number
+      | boolean
+      | React.ReactElement<any, string | React.JSXElementConstructor<any>>
+      | Iterable<React.ReactNode>
+      | React.ReactPortal
+      | null
+      | undefined;
+  };
+  base_stat: number;
+};
+
+export type IndexProps = React.Key | null | undefined;

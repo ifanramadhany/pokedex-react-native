@@ -101,11 +101,13 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     minWidth: responsiveWidth(60),
     maxWidth: responsiveWidth(120),
+    fontSize: responsiveWidth(13),
   },
   nickName: {
     fontFamily: 'Minecraftia-Regular',
     color: COLORS.yellow,
     width: responsiveWidth(110),
+    fontSize: responsiveWidth(13),
   },
   number: {
     fontFamily: 'Minecraftia-Regular',

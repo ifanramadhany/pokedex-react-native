@@ -6,9 +6,7 @@
  */
 
 import React from 'react';
-
 import {responsiveWidth, responsiveHeight, COLORS} from '../utils';
-
 import ContentLoader, {Rect} from 'react-content-loader/native';
 
 type Percentage = `${number}%` | number | undefined | null;

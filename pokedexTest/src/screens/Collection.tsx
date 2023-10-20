@@ -48,6 +48,13 @@ const Collection = ({navigation, route}: ProfileProps) => {
           <CollectionCard navigation={navigation} route={route} />
           <CollectionCard navigation={navigation} route={route} />
           <CollectionCard navigation={navigation} route={route} />
+          <CollectionCard navigation={navigation} route={route} />
+          <CollectionCard navigation={navigation} route={route} />
+          <CollectionCard navigation={navigation} route={route} />
+          <CollectionCard navigation={navigation} route={route} />
+          <CollectionCard navigation={navigation} route={route} />
+          <CollectionCard navigation={navigation} route={route} />
+          <CollectionCard navigation={navigation} route={route} />
         </View>
       </ScrollView>
     </SafeAreaView>

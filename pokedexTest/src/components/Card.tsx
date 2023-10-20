@@ -6,22 +6,32 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import {ProfileProps} from '../ts/types';
+import {CardProps} from '../ts/types';
 import LoadingCard from './LoadingCard';
 import RealCard from './RealCard';
+import {ApiResponse} from '../ts/types';
+import {getRequest} from '../api/api';
 
-const Card = ({navigation, route}: ProfileProps) => {
-  const [hasData, setHasData] = useState<boolean>(false);
+const Card = ({navigation, item}: CardProps) => {
+  // const [hasData, setHasData] = useState<boolean>(false);
+  const [pokemonDetail, setPokeomnDetail] = useState<any[] | {} | null>(null);
+
+  const fetchPokemonDetail = async () => {
+    try {
+      const response: ApiResponse = await getRequest(`/pokemon/${item.name}`);
+      setPokeomnDetail(response);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
 
   useEffect(() => {
-    let timer = setTimeout(() => setHasData(true), 2000);
-    return () => {
-      clearTimeout(timer);
-    };
+    fetchPokemonDetail();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  return hasData ? (
-    <RealCard navigation={navigation} route={route} />
+  return pokemonDetail ? (
+    <RealCard navigation={navigation} item={pokemonDetail} />
   ) : (
     <LoadingCard />
   );

@@ -13,6 +13,7 @@ import {
   Text,
   View,
   useColorScheme,
+  // ScrollView,
   TextInput,
   FlatList,
   ActivityIndicator,
@@ -24,6 +25,7 @@ import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../ts/types';
 import {Observer} from 'mobx-react';
 import rootStore from '../stores/_RootStore';
+import Config from 'react-native-config';
 
 type ProfileProps = NativeStackScreenProps<RootStackParamList, 'Detail'>;
 const Home = ({navigation, route}: ProfileProps) => {
@@ -34,6 +36,8 @@ const Home = ({navigation, route}: ProfileProps) => {
     backgroundColor: isDarkMode ? COLORS.black : COLORS.white,
   };
 
+  console.log('Home.tsx rendered', Config.BASE_URL);
+
   useEffect(() => {
     pokemonStore.fetchPokemons(0, 30);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -42,31 +46,13 @@ const Home = ({navigation, route}: ProfileProps) => {
   const renderLoader = () => {
     return (
       <View style={styles.loaderStyle}>
-        <ActivityIndicator size="large" color={COLORS.light_blue} />
+        <ActivityIndicator size="large" color="#aaa" />
       </View>
     );
   };
 
   const loadMoreItem = () => {
-    const urlString = pokemonStore.nextPreviousApi.next;
-
-    // Parse the URL string
-    const parsedUrl = urlString.split('?');
-    if (parsedUrl.length >= 2) {
-      const query = parsedUrl[1];
-      const params = query.split('&');
-
-      const paramObject: any = {};
-      params.forEach(param => {
-        const [key, value] = param.split('=');
-        paramObject[key] = value;
-      });
-
-      const offset = paramObject.offset;
-      const limit = paramObject.limit;
-
-      pokemonStore.fetchPokemons(Number(offset), Number(limit));
-    }
+    console.log('loadMoreItem!!');
   };
 
   return (
@@ -109,6 +95,23 @@ const Home = ({navigation, route}: ProfileProps) => {
             onEndReached={loadMoreItem}
             numColumns={2}
           />
+          {/* <ScrollView
+            style={styles.scrollViewStyle}
+            contentInsetAdjustmentBehavior="automatic">
+            <View style={styles.listWrapper}>
+              {pokemonStore.pokemons.map(
+                (item: {name: any; url?: string | undefined}) => (
+                  <Card
+                    key={item.name}
+                    item={item}
+                    navigation={navigation}
+                    route={route}
+                    name={undefined}
+                  />
+                ),
+              )}
+            </View>
+          </ScrollView> */}
         </SafeAreaView>
       )}
     </Observer>
@@ -117,15 +120,26 @@ const Home = ({navigation, route}: ProfileProps) => {
 
 const styles = StyleSheet.create({
   loaderStyle: {
-    marginVertical: responsiveWidth(10),
+    marginVertical: 16,
     alignItems: 'center',
+  },
+  contentContainerStyle: {
+    width: '100%',
+    backgroundColor: 'pink',
+  },
+  item: {
+    width: '100%',
+    backgroundColor: '#f9c2ff',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
   },
   safeAreaViewStyle: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  contentContainerStyle: {
+  scrollViewStyle: {
     width: '100%',
     padding: responsiveWidth(4),
   },

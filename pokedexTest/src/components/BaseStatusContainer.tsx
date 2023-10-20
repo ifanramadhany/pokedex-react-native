@@ -8,91 +8,105 @@
 import React from 'react';
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import * as Progress from 'react-native-progress';
-
+import rootStore from '../stores/_RootStore';
+import {Observer} from 'mobx-react';
 import {COLORS, responsiveWidth} from '../utils';
+import {IndexProps, StatProps} from '../ts/types';
 
 const BaseStatusContainer = () => {
+  const {pokemonStore} = rootStore;
+
+  function statComponent(stat: number) {
+    const statNumber = `0.${stat}`;
+    if (stat >= 55) {
+      return (
+        <>
+          <View style={styles.center}>
+            <Text
+              style={[
+                styles.centerText,
+                {
+                  color: COLORS.green,
+                },
+              ]}>
+              {stat}
+            </Text>
+          </View>
+          <View style={styles.right}>
+            {(() => {
+              if (stat >= 100) {
+                return (
+                  <Progress.Bar
+                    unfilledColor={COLORS.light_grey}
+                    borderColor={COLORS.beige}
+                    color={COLORS.green}
+                    progress={1}
+                    width={null}
+                    height={9}
+                  />
+                );
+              } else if (stat >= 55) {
+                return (
+                  <Progress.Bar
+                    unfilledColor={COLORS.light_grey}
+                    borderColor={COLORS.beige}
+                    color={COLORS.green}
+                    progress={Number(statNumber)}
+                    width={null}
+                    height={9}
+                  />
+                );
+              }
+            })()}
+          </View>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <View style={styles.center}>
+            <Text
+              style={[
+                styles.centerText,
+                {
+                  color: COLORS.red,
+                },
+              ]}>
+              {stat}
+            </Text>
+          </View>
+          <View style={styles.right}>
+            <Progress.Bar
+              unfilledColor={COLORS.light_grey}
+              borderColor={COLORS.beige}
+              color={COLORS.red}
+              progress={Number(statNumber)}
+              width={null}
+              height={9}
+            />
+          </View>
+        </>
+      );
+    }
+  }
+
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.aboutCard}>
-        <View style={styles.left}>
-          <Text style={styles.leftText}>Hp</Text>
-        </View>
-        <View style={styles.center}>
-          <Text
-            style={[
-              styles.centerText,
-              {
-                color: COLORS.green,
-              },
-            ]}>
-            100
-          </Text>
-        </View>
-        <View style={styles.right}>
-          <Progress.Bar
-            unfilledColor={COLORS.light_grey}
-            borderColor={COLORS.beige}
-            color={COLORS.green}
-            progress={1}
-            width={180}
-            height={7}
-          />
-        </View>
-      </View>
-      <View style={styles.aboutCard}>
-        <View style={styles.left}>
-          <Text style={styles.leftText}>Defence</Text>
-        </View>
-        <View style={styles.center}>
-          <Text
-            style={[
-              styles.centerText,
-              {
-                color: COLORS.red,
-              },
-            ]}>
-            45
-          </Text>
-        </View>
-        <View style={styles.right}>
-          <Progress.Bar
-            unfilledColor={COLORS.light_grey}
-            borderColor={COLORS.beige}
-            color={COLORS.red}
-            progress={0.45}
-            width={180}
-            height={7}
-          />
-        </View>
-      </View>
-      <View style={styles.aboutCard}>
-        <View style={styles.left}>
-          <Text style={styles.leftText}>Special-Attack Super</Text>
-        </View>
-        <View style={styles.center}>
-          <Text
-            style={[
-              styles.centerText,
-              {
-                color: COLORS.green,
-              },
-            ]}>
-            65
-          </Text>
-        </View>
-        <View style={styles.right}>
-          <Progress.Bar
-            unfilledColor={COLORS.light_grey}
-            borderColor={COLORS.beige}
-            color={COLORS.green}
-            progress={0.65}
-            width={180}
-            height={7}
-          />
-        </View>
-      </View>
-    </ScrollView>
+    <Observer>
+      {() => (
+        <ScrollView style={styles.container}>
+          {pokemonStore.pokemonDetail.stats.map(
+            (item: StatProps, index: IndexProps) => (
+              <View key={index} style={styles.aboutCard}>
+                <View style={styles.left}>
+                  <Text style={styles.leftText}>{item.stat.name}</Text>
+                </View>
+                {statComponent(item.base_stat)}
+              </View>
+            ),
+          )}
+        </ScrollView>
+      )}
+    </Observer>
   );
 };
 
@@ -117,10 +131,12 @@ const styles = StyleSheet.create({
   leftText: {
     fontFamily: 'Nokia Cellphone FC',
     fontSize: responsiveWidth(13),
+    color: COLORS.light_black,
+    textTransform: 'capitalize',
   },
   right: {
     height: 'auto',
-    width: '55%',
+    width: '52%',
     justifyContent: 'center',
   },
   center: {

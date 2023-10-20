@@ -6,13 +6,9 @@
  */
 
 import React from 'react';
-
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-
 import {COLORS} from '../utils';
-
 import {Home, Collection} from '.';
-
 import Pokeball from '../assets/svgs/pokeball.svg';
 import PokeballOutline from '../assets/svgs/pokeball_outline.svg';
 import HomeIcon from '../assets/svgs/home.svg';

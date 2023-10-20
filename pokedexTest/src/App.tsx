@@ -12,36 +12,32 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {Welcome, Main, Detail, DetailMyCollection} from './screens';
 
-export type MainScreenType = {
-  screen: 'Main' | 'Collection' | 'My Collection';
-};
+import rootStore from './stores/_RootStore';
+import {Provider as MobXProvider} from 'mobx-react';
 
-export type RootStackParamList = {
-  Welcome: undefined;
-  Main: MainScreenType;
-  Detail: undefined;
-  DetailMyCollection: undefined;
-};
+import {RootStackParamList} from './ts/types';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-        initialRouteName="Welcome">
-        <Stack.Screen name="Welcome" component={Welcome} />
-        <Stack.Screen name="Main" component={Main} />
-        <Stack.Screen name="Detail" component={Detail} />
-        <Stack.Screen
-          name="DetailMyCollection"
-          component={DetailMyCollection}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <MobXProvider store={rootStore}>
+      <NavigationContainer>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+          }}
+          initialRouteName="Welcome">
+          <Stack.Screen name="Welcome" component={Welcome} />
+          <Stack.Screen name="Main" component={Main} />
+          <Stack.Screen name="Detail" component={Detail} />
+          <Stack.Screen
+            name="DetailMyCollection"
+            component={DetailMyCollection}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </MobXProvider>
   );
 };
 
