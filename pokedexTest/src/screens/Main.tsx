@@ -7,15 +7,16 @@
 
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {COLORS} from '../utils';
+import {COLORS, responsiveHeight, responsiveWidth} from '../utils';
 import {Home, Collection} from '.';
 import Pokeball from '../assets/svgs/pokeball.svg';
 import PokeballOutline from '../assets/svgs/pokeball_outline.svg';
-import HomeIcon from '../assets/svgs/home.svg';
-import HomeOutline from '../assets/svgs/home_outline.svg';
+import Bag from '../assets/svgs/bag.svg';
+import BagOutline from '../assets/svgs/bag_outline.svg';
 
 const Main = () => {
   const Tab = createBottomTabNavigator();
+
   return (
     <Tab.Navigator
       screenOptions={() => ({
@@ -28,11 +29,18 @@ const Main = () => {
         name="Home"
         component={Home}
         options={{
+          // eslint-disable-next-line react/no-unstable-nested-components
           tabBarIcon: ({focused}) =>
             focused ? (
-              <HomeIcon width={26} height={26} />
+              <Pokeball
+                width={responsiveWidth(25)}
+                height={responsiveHeight(25)}
+              />
             ) : (
-              <HomeOutline width={26} height={26} />
+              <PokeballOutline
+                width={responsiveWidth(25)}
+                height={responsiveHeight(25)}
+              />
             ),
         }}
       />
@@ -40,11 +48,15 @@ const Main = () => {
         name="My Collection"
         component={Collection}
         options={{
+          // eslint-disable-next-line react/no-unstable-nested-components
           tabBarIcon: ({focused}) =>
             focused ? (
-              <Pokeball width={26} height={26} />
+              <Bag width={responsiveWidth(25)} height={responsiveHeight(25)} />
             ) : (
-              <PokeballOutline width={26} height={26} />
+              <BagOutline
+                width={responsiveWidth(25)}
+                height={responsiveHeight(25)}
+              />
             ),
         }}
       />

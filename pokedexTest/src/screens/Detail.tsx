@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, useWindowDimensions} from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {
@@ -10,6 +10,7 @@ import {
   Image,
   TouchableOpacity,
   Modal,
+  BackHandler,
 } from 'react-native';
 import Pokedex from '../assets/svgs/pokedex.svg';
 import {
@@ -65,6 +66,21 @@ export default function Detail({navigation}: ProfileProps) {
     />
   );
 
+  const toHomeScreen = () => {
+    pokemonStore.setPokemonDetail(null);
+    navigation.navigate('Main', {screen: 'Main'});
+    return true;
+  };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      toHomeScreen,
+    );
+
+    return () => backHandler.remove();
+  });
+
   return (
     <Observer>
       {() => (
@@ -105,7 +121,7 @@ export default function Detail({navigation}: ProfileProps) {
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => {
-                  navigation.navigate('Main', {screen: 'Main'});
+                  toHomeScreen();
                 }}>
                 <MaterialIcons
                   name="arrow-back-ios-new"
@@ -223,7 +239,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: responsiveWidth(20),
     paddingTop: responsiveWidth(10),
     fontFamily: 'Minecraftia-Regular',
-    color: COLORS.white,
+    color: COLORS.light_grey,
     fontSize: responsiveWidth(25),
   },
   name: {

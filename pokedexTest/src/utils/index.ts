@@ -11,9 +11,17 @@ export const responsiveHeight = (height: number) => {
   return (Dimensions.get('window').height * height) / heightMobileUI;
 };
 
+// export const responsiveWidth = (percentage: number) => {
+//   return (Dimensions.get('window').width * percentage) / 100;
+// };
+
+// export const responsiveHeight = (percentage: number) => {
+//   return (Dimensions.get('window').height * percentage) / 100;
+// };
+
 export function convertNumber(number: number) {
   const str = '' + number;
-  const pad = '000';
+  const pad = '0000';
   return pad.substring(0, pad.length - str.length) + str;
 }
 

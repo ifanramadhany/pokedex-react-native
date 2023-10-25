@@ -6,7 +6,14 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from 'react-native';
 import {
   responsiveWidth,
   responsiveHeight,
@@ -17,9 +24,10 @@ import Pokedex from '../assets/svgs/pokedex.svg';
 import {RealCardProps} from '../ts/types';
 import rootStore from '../stores/_RootStore';
 
-const RealCard = ({navigation, item}: RealCardProps) => {
+const RealCard = ({navigation, item, oneItemOnly}: RealCardProps) => {
   const {pokemonStore} = rootStore;
   const [pokemonDetail, setPokeomnDetail] = useState<any>();
+  const [isImgLoaded, setIsImgLoaded] = useState<boolean>();
 
   const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonDetail?.id}.png`;
 
@@ -29,7 +37,9 @@ const RealCard = ({navigation, item}: RealCardProps) => {
 
   const toDetailPage = () => {
     pokemonStore.setPokemonDetail(item);
-    navigation.navigate('Detail');
+    if (pokemonStore.pokemonDetail) {
+      navigation.navigate('Detail');
+    }
   };
 
   return (
@@ -37,7 +47,7 @@ const RealCard = ({navigation, item}: RealCardProps) => {
       onPress={() => {
         toDetailPage();
       }}
-      style={styles.card}>
+      style={[oneItemOnly ? styles.card : styles.cardOneOnly]}>
       <View style={styles.contentCard}>
         <View style={styles.nameAndNumber}>
           <Text numberOfLines={1} style={styles.name}>
@@ -61,6 +71,13 @@ const RealCard = ({navigation, item}: RealCardProps) => {
             </Text>
           </View>
           <View style={styles.img}>
+            {!isImgLoaded && (
+              <ActivityIndicator
+                style={styles.ActivityIndicator}
+                size={responsiveWidth(45)}
+                color={COLORS.transparent_blue}
+              />
+            )}
             <Image
               style={{
                 width: responsiveWidth(90),
@@ -69,6 +86,7 @@ const RealCard = ({navigation, item}: RealCardProps) => {
               source={{
                 uri: imageUrl,
               }}
+              onLoad={() => setIsImgLoaded(true)}
             />
           </View>
         </View>
@@ -83,6 +101,12 @@ const RealCard = ({navigation, item}: RealCardProps) => {
 };
 
 const styles = StyleSheet.create({
+  ActivityIndicator: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    justifyContent: 'center',
+  },
   pokedexInCard: {
     transform: [{rotate: '10deg'}],
     position: 'absolute',
@@ -106,7 +130,7 @@ const styles = StyleSheet.create({
   number: {
     fontFamily: 'Minecraftia-Regular',
     color: COLORS.blue,
-    fontSize: responsiveWidth(17),
+    fontSize: responsiveWidth(14.5),
   },
   skillsAndImg: {
     width: '100%',
@@ -140,6 +164,13 @@ const styles = StyleSheet.create({
     padding: responsiveWidth(10),
   },
   card: {
+    width: '100%',
+    maxWidth: '50%',
+    height: responsiveHeight(130),
+    padding: responsiveWidth(4),
+    backgroundColor: COLORS.white,
+  },
+  cardOneOnly: {
     width: '50%',
     height: responsiveHeight(130),
     padding: responsiveWidth(4),

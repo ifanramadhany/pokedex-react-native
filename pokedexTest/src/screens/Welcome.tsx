@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import CookieManager from '@react-native-cookies/cookies';
 import {
   SafeAreaView,
   StatusBar,
@@ -27,6 +28,16 @@ const Welcome = ({navigation}: ProfileProps) => {
     backgroundColor: isDarkMode ? COLORS.black : COLORS.white,
   };
 
+  const toHomeScreen = () => {
+    navigation.navigate('Main', {screen: 'Main'});
+    CookieManager.set('http://ifan.com', {
+      name: 'pokedexIfan',
+      value: 'active',
+    }).then(done => {
+      console.log('CookieManager.set =>', done);
+    });
+  };
+
   return (
     <SafeAreaView style={styles.safeAreaViewStyle}>
       <StatusBar
@@ -45,7 +56,7 @@ const Welcome = ({navigation}: ProfileProps) => {
       <TouchableOpacity
         style={styles.wrapperBtnStart}
         onPress={() => {
-          navigation.navigate('Main', {screen: 'Main'});
+          toHomeScreen();
         }}>
         <Text style={styles.btnStart}>Let's Begin</Text>
         <MaterialIcons

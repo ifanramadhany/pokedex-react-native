@@ -12,7 +12,7 @@ import RealCard from './RealCard';
 import {ApiResponse} from '../ts/types';
 import {getRequest} from '../api/api';
 
-const Card = ({navigation, item}: CardProps) => {
+const Card = ({navigation, item, oneItemOnly}: CardProps) => {
   // const [hasData, setHasData] = useState<boolean>(false);
   const [pokemonDetail, setPokeomnDetail] = useState<any[] | {} | null>(null);
 
@@ -31,7 +31,11 @@ const Card = ({navigation, item}: CardProps) => {
   }, []);
 
   return pokemonDetail ? (
-    <RealCard navigation={navigation} item={pokemonDetail} />
+    <RealCard
+      oneItemOnly={oneItemOnly}
+      navigation={navigation}
+      item={pokemonDetail}
+    />
   ) : (
     <LoadingCard />
   );

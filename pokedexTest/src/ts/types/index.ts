@@ -28,7 +28,12 @@ export type MainScreenType = {
 
 export type ProfileProps = NativeStackScreenProps<
   RootStackParamList,
-  'Main' | 'DetailMyCollection' | 'Detail' | 'Welcome'
+  | 'Main'
+  | 'DetailMyCollection'
+  | 'Detail'
+  | 'Welcome'
+  | 'My Collection'
+  | 'Home'
 >;
 
 export type RootStackParamList = {
@@ -36,6 +41,8 @@ export type RootStackParamList = {
   Main: MainScreenType;
   Detail: undefined;
   DetailMyCollection: undefined;
+  Home: undefined;
+  'My Collection': undefined;
 };
 
 export type renderTabBarProps = React.JSX.IntrinsicAttributes &
@@ -85,7 +92,7 @@ export type renderTabBarProps = React.JSX.IntrinsicAttributes &
     android_ripple?: PressableAndroidRippleConfig | undefined;
   };
 
-type PokemonType = {
+export type PokemonType = {
   name: string;
   url?: string;
 };
@@ -97,20 +104,40 @@ export type CardProps = IntrinsicAttributes & {
   key: Key | null | undefined;
   navigation: NativeStackNavigationProp<
     RootStackParamList,
-    'Detail',
+    | 'Detail'
+    | 'Main'
+    | 'My Collection'
+    | 'DetailMyCollection'
+    | 'Welcome'
+    | 'Home',
     undefined
   >;
-  route: RouteProp<RootStackParamList, 'Detail'>;
+  route: RouteProp<
+    RootStackParamList,
+    | 'Main'
+    | 'DetailMyCollection'
+    | 'Detail'
+    | 'Welcome'
+    | 'My Collection'
+    | 'Home'
+  >;
   item: PokemonType;
+  oneItemOnly: boolean;
 };
 
 export type RealCardProps = {
   navigation: NativeStackNavigationProp<
     RootStackParamList,
-    'Detail',
+    | 'Detail'
+    | 'Main'
+    | 'My Collection'
+    | 'DetailMyCollection'
+    | 'Welcome'
+    | 'Home',
     undefined
   >;
   item: any[] | {} | null;
+  oneItemOnly: boolean;
 };
 
 export type RouteType = {key: string; title: string}[];

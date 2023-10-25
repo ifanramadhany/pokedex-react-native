@@ -5,7 +5,7 @@
  * @format
  */
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   StatusBar,
@@ -16,26 +16,27 @@ import {
   TextInput,
   FlatList,
   ActivityIndicator,
+  BackHandler,
 } from 'react-native';
 import {responsiveWidth, responsiveHeight, COLORS} from '../utils';
 import Pokedex from '../assets/svgs/pokedex.svg';
 import {Card} from '../components';
-import {NativeStackScreenProps} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../ts/types';
+import {ProfileProps} from '../ts/types';
 import {Observer} from 'mobx-react';
 import rootStore from '../stores/_RootStore';
 
-type ProfileProps = NativeStackScreenProps<RootStackParamList, 'Detail'>;
 const Home = ({navigation, route}: ProfileProps) => {
   const isDarkMode = useColorScheme() === 'dark';
   const {pokemonStore} = rootStore;
+  const [isSearch, setIsSearch] = useState<boolean>(false);
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? COLORS.black : COLORS.white,
   };
 
   useEffect(() => {
-    pokemonStore.fetchPokemons(0, 30);
+    pokemonStore.fetchPokemons(0, 20);
+    pokemonStore.fetchAllPokemons();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -43,6 +44,16 @@ const Home = ({navigation, route}: ProfileProps) => {
     return (
       <View style={styles.loaderStyle}>
         <ActivityIndicator size="large" color={COLORS.light_blue} />
+      </View>
+    );
+  };
+
+  const listEmpty = () => {
+    return (
+      <View style={styles.listEmptyWrapper}>
+        <Text style={styles.listEmptyText}>
+          Pokémon not found / Search minimum 3 characters!
+        </Text>
       </View>
     );
   };
@@ -69,6 +80,56 @@ const Home = ({navigation, route}: ProfileProps) => {
     }
   };
 
+  const toHomeScreen = () => {
+    navigation.navigate('Main', {screen: 'Main'});
+    return true;
+  };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      toHomeScreen,
+    );
+
+    return () => backHandler.remove();
+  });
+
+  const onChangeTextHandler = (input: string) => {
+    pokemonStore.setPokemonFilterByName([]);
+    if (input.trim().length === 0) {
+      setIsSearch(false);
+    } else {
+      if (input.length >= 3) {
+        pokemonStore.filterByName(input);
+        setIsSearch(true);
+      }
+    }
+  };
+
+  let oneItemOnly = pokemonStore.resultBySearch.length === 1;
+
+  const renderItem = ({item}: any) => (
+    <Card
+      key={item.name}
+      item={item}
+      navigation={navigation}
+      route={route}
+      name={undefined}
+      oneItemOnly={false}
+    />
+  );
+
+  const renderItemSearch = ({item}: any) => (
+    <Card
+      key={item.name}
+      item={item}
+      navigation={navigation}
+      route={route}
+      name={undefined}
+      oneItemOnly={oneItemOnly}
+    />
+  );
+
   return (
     <Observer>
       {() => (
@@ -82,8 +143,9 @@ const Home = ({navigation, route}: ProfileProps) => {
               <Text style={styles.title}>Pokédex</Text>
               <TextInput
                 style={styles.inputSearch}
-                placeholder="Search Pokemon.."
+                placeholder="Minimum 3 characters.."
                 placeholderTextColor={COLORS.grey}
+                onChangeText={newText => onChangeTextHandler(newText)}
               />
               <Pokedex
                 width={responsiveWidth(220)}
@@ -93,17 +155,25 @@ const Home = ({navigation, route}: ProfileProps) => {
             </View>
           </View>
           <FlatList
-            contentContainerStyle={styles.contentContainerStyle}
+            contentContainerStyle={[
+              isSearch
+                ? styles.contentContainerStyleShow
+                : styles.contentContainerStyleHidden,
+            ]}
+            data={pokemonStore.resultBySearch}
+            renderItem={renderItemSearch}
+            keyExtractor={(_item, index) => index.toString()}
+            numColumns={2}
+            ListEmptyComponent={listEmpty}
+          />
+          <FlatList
+            contentContainerStyle={[
+              isSearch
+                ? styles.contentContainerStyleHidden
+                : styles.contentContainerStyleShow,
+            ]}
             data={pokemonStore.pokemons}
-            renderItem={({item}) => (
-              <Card
-                key={item.name}
-                item={item}
-                navigation={navigation}
-                route={route}
-                name={undefined}
-              />
-            )}
+            renderItem={renderItem}
             keyExtractor={(_item, index) => index.toString()}
             ListFooterComponent={renderLoader}
             onEndReached={loadMoreItem}
@@ -116,6 +186,15 @@ const Home = ({navigation, route}: ProfileProps) => {
 };
 
 const styles = StyleSheet.create({
+  listEmptyWrapper: {
+    width: '100%',
+    paddingVertical: responsiveWidth(40),
+  },
+  listEmptyText: {
+    fontFamily: 'Minecraftia-Regular',
+    color: COLORS.light_black,
+    fontSize: responsiveWidth(10),
+  },
   loaderStyle: {
     marginVertical: responsiveWidth(10),
     alignItems: 'center',
@@ -128,6 +207,15 @@ const styles = StyleSheet.create({
   contentContainerStyle: {
     width: '100%',
     padding: responsiveWidth(4),
+  },
+  contentContainerStyleShow: {
+    width: '100%',
+    padding: responsiveWidth(4),
+  },
+  contentContainerStyleHidden: {
+    width: '100%',
+    padding: responsiveWidth(4),
+    display: 'none',
   },
   searchWrapper: {
     width: '100%',
