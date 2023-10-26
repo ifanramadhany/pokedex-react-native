@@ -46,25 +46,27 @@ const Welcome = ({navigation}: ProfileProps) => {
       />
       <View style={styles.wrapperPkmnIcon}>
         <PokemonIcon
-          width={responsiveWidth(300)}
-          height={responsiveHeight(150)}
+          width={responsiveWidth(75)}
+          height={responsiveHeight(18)}
         />
         <View style={styles.wrapperOwnerName}>
           <Text style={styles.ownerName}>by Ifan Ramadhany</Text>
         </View>
       </View>
-      <TouchableOpacity
-        style={styles.wrapperBtnStart}
-        onPress={() => {
-          toHomeScreen();
-        }}>
-        <Text style={styles.btnStart}>Let's Begin</Text>
-        <MaterialIcons
-          name="arrow-forward-ios"
-          size={responsiveWidth(16)}
-          color={COLORS.white}
-        />
-      </TouchableOpacity>
+      <View style={styles.wrapperBtnStart}>
+        <TouchableOpacity
+          style={styles.btnStart}
+          onPress={() => {
+            toHomeScreen();
+          }}>
+          <Text style={styles.textBtnStart}>Let's Begin</Text>
+          <MaterialIcons
+            name="arrow-forward-ios"
+            size={responsiveWidth(2)}
+            color={COLORS.white}
+          />
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -74,42 +76,41 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingTop: responsiveWidth(140),
-    paddingBottom: responsiveWidth(70),
-    paddingHorizontal: responsiveWidth(15),
-    gap: responsiveWidth(8),
-  },
-  container: {
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   wrapperOwnerName: {
-    width: '115%',
+    width: responsiveWidth(80),
     alignItems: 'flex-end',
   },
   ownerName: {
     color: COLORS.blue,
-    fontSize: responsiveWidth(10),
+    fontSize: responsiveWidth(2.5),
   },
   wrapperPkmnIcon: {
     width: '100%',
-    justifyContent: 'center',
+    height: responsiveHeight(90),
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingHorizontal: responsiveWidth(45),
+    paddingHorizontal: responsiveWidth(2),
+    paddingTop: responsiveHeight(20),
   },
   wrapperBtnStart: {
+    height: responsiveHeight(10),
     width: '100%',
-    borderRadius: responsiveWidth(100),
-    height: 'auto',
-    padding: responsiveWidth(12),
+    paddingHorizontal: responsiveWidth(5),
+    justifyContent: 'center',
+  },
+  btnStart: {
+    width: '100%',
+    borderRadius: responsiveWidth(10),
     backgroundColor: COLORS.blue,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: responsiveWidth(8),
+    gap: responsiveWidth(2),
+    paddingVertical: responsiveHeight(1.7),
   },
-  btnStart: {
-    fontSize: responsiveWidth(16),
+  textBtnStart: {
+    fontSize: responsiveWidth(3.5),
     color: COLORS.white,
     fontFamily: 'Nokia Cellphone FC',
   },

@@ -28,8 +28,8 @@ const CollectionCard = ({navigation}: ProfileProps) => {
           <View style={styles.img}>
             <Image
               style={{
-                width: responsiveWidth(62),
-                height: responsiveHeight(62),
+                width: responsiveWidth(20),
+                height: responsiveHeight(9),
               }}
               source={{
                 uri: imageUrl,
@@ -47,7 +47,7 @@ const CollectionCard = ({navigation}: ProfileProps) => {
                 </Text>
               </View>
               <Text numberOfLines={1} style={styles.number}>
-                #001
+                #00001
               </Text>
             </View>
             <View style={styles.skills}>
@@ -58,8 +58,8 @@ const CollectionCard = ({navigation}: ProfileProps) => {
         </View>
 
         <Pokedex
-          width={responsiveWidth(145)}
-          height={responsiveHeight(145)}
+          width={responsiveWidth(35)}
+          height={responsiveHeight(15)}
           style={styles.pokedexInCard}
         />
       </View>
@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
   pokedexInCard: {
     position: 'absolute',
     transform: [{rotate: '10deg'}],
-    left: '75%',
-    top: '-8%',
+    left: '80%',
+    top: '-4%',
   },
   imgAndDetail: {
     width: '100%',
@@ -82,10 +82,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   nameNumberSkills: {
-    width: '100%',
+    flex: 1,
     zIndex: 1,
-    paddingHorizontal: responsiveWidth(15),
+    paddingHorizontal: responsiveWidth(4),
     display: 'flex',
+    justifyContent: 'center',
   },
   nameNicknameNumber: {
     width: '85%',
@@ -94,55 +95,59 @@ const styles = StyleSheet.create({
   },
   nameNickname: {
     flexDirection: 'row',
-    gap: responsiveWidth(5),
+    gap: responsiveWidth(0.5),
+    alignItems: 'center',
   },
   name: {
     fontFamily: 'Minecraftia-Regular',
     color: COLORS.white,
-    minWidth: responsiveWidth(60),
-    maxWidth: responsiveWidth(120),
-    fontSize: responsiveWidth(13),
+    minWidth: responsiveWidth(28),
+    maxWidth: responsiveWidth(28),
+    fontSize: responsiveWidth(4),
   },
   nickName: {
     fontFamily: 'Minecraftia-Regular',
     color: COLORS.yellow,
-    width: responsiveWidth(110),
-    fontSize: responsiveWidth(13),
+    width: responsiveWidth(25),
+    fontSize: responsiveWidth(3.5),
   },
   number: {
     fontFamily: 'Minecraftia-Regular',
     color: COLORS.blue,
-    fontSize: responsiveWidth(17),
+    fontSize: responsiveWidth(3),
+    paddingTop: responsiveHeight(0.2),
   },
   skills: {
     width: 'auto',
     flexDirection: 'row',
-    gap: responsiveWidth(6),
+    gap: responsiveWidth(2),
   },
   skill: {
     width: 'auto',
-    paddingHorizontal: responsiveWidth(15),
-    paddingVertical: responsiveWidth(2),
+    paddingHorizontal: responsiveWidth(4),
+    paddingVertical: responsiveHeight(0.5),
     backgroundColor: COLORS.transparent_blue,
     color: COLORS.white,
     fontFamily: 'Minecraftia-Regular',
-    fontSize: responsiveWidth(12),
+    fontSize: responsiveWidth(2.8),
   },
   img: {
     width: 'auto',
     justifyContent: 'center',
     alignItems: 'center',
+    marginLeft: responsiveWidth(2),
   },
   contentCard: {
     width: '100%',
     height: '100%',
     backgroundColor: COLORS.light_blue,
-    padding: responsiveWidth(10),
+    padding: responsiveWidth(1),
   },
   card: {
     width: '100%',
-    height: responsiveHeight(100),
-    padding: responsiveWidth(4),
+    height: responsiveHeight(10),
+    paddingHorizontal: responsiveWidth(0.5),
+    paddingVertical: responsiveHeight(0.3),
     backgroundColor: COLORS.white,
   },
 });

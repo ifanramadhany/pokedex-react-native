@@ -10,7 +10,7 @@ import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import * as Progress from 'react-native-progress';
 import rootStore from '../stores/_RootStore';
 import {Observer} from 'mobx-react';
-import {COLORS, responsiveWidth} from '../utils';
+import {COLORS, responsiveWidth, responsiveHeight} from '../utils';
 import {IndexProps, StatProps} from '../ts/types';
 
 const BaseStatusContainer = () => {
@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.beige,
     flex: 1,
-    paddingHorizontal: responsiveWidth(13),
+    paddingHorizontal: responsiveWidth(5),
   },
   aboutCard: {
     width: '100%',
@@ -122,21 +122,21 @@ const styles = StyleSheet.create({
     borderBottomColor: COLORS.light_grey,
     borderBottomWidth: 1,
     flexDirection: 'row',
-    paddingVertical: responsiveWidth(17),
+    paddingVertical: responsiveHeight(2),
   },
   left: {
     height: 'auto',
-    width: '33%',
+    width: '35%',
   },
   leftText: {
     fontFamily: 'Nokia Cellphone FC',
-    fontSize: responsiveWidth(13),
+    fontSize: responsiveWidth(3),
     color: COLORS.light_black,
     textTransform: 'capitalize',
   },
   right: {
     height: 'auto',
-    width: '52%',
+    width: '50%',
     justifyContent: 'center',
   },
   center: {
@@ -148,7 +148,7 @@ const styles = StyleSheet.create({
   },
   centerText: {
     fontFamily: 'Nokia Cellphone FC',
-    fontSize: responsiveWidth(13),
+    fontSize: responsiveWidth(3),
   },
 });
 

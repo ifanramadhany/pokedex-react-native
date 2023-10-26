@@ -27,8 +27,8 @@ const LoadingCard = () => {
 const styles = StyleSheet.create({
   wrapperSkeleton: {
     width: '50%',
-    height: responsiveHeight(130),
-    padding: responsiveWidth(4),
+    height: responsiveHeight(16),
+    padding: responsiveWidth(1),
   },
 });
 

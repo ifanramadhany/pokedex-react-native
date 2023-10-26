@@ -47,14 +47,14 @@ const RealCard = ({navigation, item, oneItemOnly}: RealCardProps) => {
       onPress={() => {
         toDetailPage();
       }}
-      style={[oneItemOnly ? styles.card : styles.cardOneOnly]}>
+      style={[oneItemOnly ? styles.cardOneOnly : styles.card]}>
       <View style={styles.contentCard}>
         <View style={styles.nameAndNumber}>
           <Text numberOfLines={1} style={styles.name}>
             {pokemonDetail?.name}
           </Text>
           <Text numberOfLines={1} style={styles.number}>
-            #{convertNumber(pokemonDetail?.id)}
+            #{pokemonDetail?.id ? convertNumber(pokemonDetail?.id) : ''}
           </Text>
         </View>
         <View style={styles.skillsAndImg}>
@@ -74,14 +74,14 @@ const RealCard = ({navigation, item, oneItemOnly}: RealCardProps) => {
             {!isImgLoaded && (
               <ActivityIndicator
                 style={styles.ActivityIndicator}
-                size={responsiveWidth(45)}
+                size={responsiveWidth(10)}
                 color={COLORS.transparent_blue}
               />
             )}
             <Image
               style={{
-                width: responsiveWidth(90),
-                height: responsiveHeight(90),
+                width: responsiveWidth(22),
+                height: responsiveHeight(10),
               }}
               source={{
                 uri: imageUrl,
@@ -91,8 +91,8 @@ const RealCard = ({navigation, item, oneItemOnly}: RealCardProps) => {
           </View>
         </View>
         <Pokedex
-          width={responsiveWidth(180)}
-          height={responsiveHeight(180)}
+          width={responsiveWidth(36)}
+          height={responsiveHeight(36)}
           style={styles.pokedexInCard}
         />
       </View>
@@ -103,15 +103,15 @@ const RealCard = ({navigation, item, oneItemOnly}: RealCardProps) => {
 const styles = StyleSheet.create({
   ActivityIndicator: {
     position: 'absolute',
-    height: '100%',
     width: '100%',
     justifyContent: 'center',
+    left: '4%',
+    top: '83%',
   },
   pokedexInCard: {
     transform: [{rotate: '10deg'}],
     position: 'absolute',
-    left: '55%',
-    top: 0,
+    left: '35%',
   },
   nameAndNumber: {
     width: '100%',
@@ -123,57 +123,58 @@ const styles = StyleSheet.create({
   name: {
     fontFamily: 'Minecraftia-Regular',
     color: COLORS.white,
-    width: responsiveWidth(115),
-    fontSize: responsiveWidth(16),
+    width: responsiveWidth(28),
+    fontSize: responsiveWidth(4),
     textTransform: 'capitalize',
   },
   number: {
     fontFamily: 'Minecraftia-Regular',
     color: COLORS.blue,
-    fontSize: responsiveWidth(14.5),
+    fontSize: responsiveWidth(3),
+    paddingTop: responsiveHeight(0.5),
   },
   skillsAndImg: {
     width: '100%',
-    height: responsiveHeight(80),
+    height: responsiveHeight(4),
     flexDirection: 'row',
     zIndex: 1,
   },
   skills: {
     width: 'auto',
-    gap: responsiveWidth(6),
+    gap: responsiveWidth(1),
   },
   skill: {
-    width: 'auto',
-    paddingHorizontal: responsiveWidth(15),
-    paddingVertical: responsiveWidth(2),
+    minWidth: responsiveWidth(19),
+    paddingHorizontal: responsiveWidth(3),
+    paddingVertical: responsiveWidth(1),
     backgroundColor: COLORS.transparent_blue,
     color: COLORS.white,
     fontFamily: 'Minecraftia-Regular',
-    fontSize: responsiveWidth(12),
+    fontSize: responsiveWidth(2.7),
     textAlign: 'center',
   },
   img: {
     flex: 1,
     alignItems: 'flex-end',
-    top: -10,
+    right: '10%',
   },
   contentCard: {
     width: '100%',
     height: '100%',
     backgroundColor: COLORS.light_blue,
-    padding: responsiveWidth(10),
-  },
-  card: {
-    width: '100%',
-    maxWidth: '50%',
-    height: responsiveHeight(130),
-    padding: responsiveWidth(4),
-    backgroundColor: COLORS.white,
+    padding: responsiveWidth(2),
   },
   cardOneOnly: {
+    width: '100%',
+    maxWidth: '50%',
+    height: responsiveHeight(16),
+    padding: responsiveWidth(1),
+    backgroundColor: COLORS.white,
+  },
+  card: {
     width: '50%',
-    height: responsiveHeight(130),
-    padding: responsiveWidth(4),
+    height: responsiveHeight(16),
+    padding: responsiveWidth(1),
     backgroundColor: COLORS.white,
   },
 });

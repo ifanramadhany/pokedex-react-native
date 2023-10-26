@@ -1,23 +1,23 @@
 import {Dimensions} from 'react-native';
 
-const heightMobileUI = 896;
-const widthMobileUI = 414;
+// const heightMobileUI = 896;
+// const widthMobileUI = 414;
 
-export const responsiveWidth = (width: number) => {
-  return (Dimensions.get('window').width * width) / widthMobileUI;
-};
-
-export const responsiveHeight = (height: number) => {
-  return (Dimensions.get('window').height * height) / heightMobileUI;
-};
-
-// export const responsiveWidth = (percentage: number) => {
-//   return (Dimensions.get('window').width * percentage) / 100;
+// export const responsiveWidth = (width: number) => {
+//   return (Dimensions.get('window').width * width) / widthMobileUI;
 // };
 
-// export const responsiveHeight = (percentage: number) => {
-//   return (Dimensions.get('window').height * percentage) / 100;
+// export const responsiveHeight = (height: number) => {
+//   return (Dimensions.get('window').height * height) / heightMobileUI;
 // };
+
+export const responsiveWidth = (percentage: number) => {
+  return (Dimensions.get('window').width * percentage) / 100;
+};
+
+export const responsiveHeight = (percentage: number) => {
+  return (Dimensions.get('window').height * percentage) / 100;
+};
 
 export function convertNumber(number: number) {
   const str = '' + number;
