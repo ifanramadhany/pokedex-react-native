@@ -62,7 +62,7 @@ const Welcome = ({navigation}: ProfileProps) => {
           <Text style={styles.textBtnStart}>Let's Begin</Text>
           <MaterialIcons
             name="arrow-forward-ios"
-            size={responsiveWidth(2)}
+            size={responsiveWidth(4)}
             color={COLORS.white}
           />
         </TouchableOpacity>
