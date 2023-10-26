@@ -7,7 +7,12 @@
 
 import React from 'react';
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import {COLORS, arrayToString, responsiveWidth} from '../utils';
+import {
+  COLORS,
+  arrayToString,
+  responsiveHeight,
+  responsiveWidth,
+} from '../utils';
 import rootStore from '../stores/_RootStore';
 import {Observer} from 'mobx-react';
 
@@ -93,7 +98,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.beige,
     flex: 1,
-    paddingHorizontal: responsiveWidth(13),
+    paddingHorizontal: responsiveWidth(5),
   },
   aboutCard: {
     width: '100%',
@@ -101,7 +106,7 @@ const styles = StyleSheet.create({
     borderBottomColor: COLORS.light_grey,
     borderBottomWidth: 1,
     flexDirection: 'row',
-    paddingVertical: responsiveWidth(17),
+    paddingVertical: responsiveHeight(2),
   },
   left: {
     height: 'auto',
@@ -109,7 +114,7 @@ const styles = StyleSheet.create({
   },
   leftText: {
     fontFamily: 'Nokia Cellphone FC',
-    fontSize: responsiveWidth(13),
+    fontSize: responsiveWidth(3),
     color: COLORS.light_black,
   },
   right: {
@@ -118,13 +123,13 @@ const styles = StyleSheet.create({
   },
   rightTextCapitalize: {
     fontFamily: 'Nokia Cellphone FC',
-    fontSize: responsiveWidth(13),
+    fontSize: responsiveWidth(3),
     color: COLORS.light_black,
     textTransform: 'capitalize',
   },
   rightText: {
     fontFamily: 'Nokia Cellphone FC',
-    fontSize: responsiveWidth(13),
+    fontSize: responsiveWidth(3),
     color: COLORS.light_black,
   },
   dot: {
@@ -134,7 +139,7 @@ const styles = StyleSheet.create({
   },
   dotText: {
     fontFamily: 'Nokia Cellphone FC',
-    fontSize: responsiveWidth(13),
+    fontSize: responsiveWidth(3),
     color: COLORS.light_black,
   },
 });

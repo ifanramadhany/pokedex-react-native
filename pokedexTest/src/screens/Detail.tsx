@@ -67,7 +67,7 @@ export default function Detail({navigation}: ProfileProps) {
   );
 
   const toHomeScreen = () => {
-    pokemonStore.setPokemonDetail(null);
+    // pokemonStore.setPokemonDetail(null);
     navigation.navigate('Main', {screen: 'Main'});
     return true;
   };
@@ -100,8 +100,8 @@ export default function Detail({navigation}: ProfileProps) {
               <Image
                 style={{
                   transform: [{scale: catchMModal ? 1.5 : 0}],
-                  width: responsiveWidth(220),
-                  height: responsiveHeight(220),
+                  width: responsiveWidth(53),
+                  height: responsiveHeight(25),
                 }}
                 source={{
                   uri: imageUrl,
@@ -125,7 +125,7 @@ export default function Detail({navigation}: ProfileProps) {
                 }}>
                 <MaterialIcons
                   name="arrow-back-ios-new"
-                  size={responsiveWidth(30)}
+                  size={responsiveWidth(8)}
                   color={COLORS.white}
                 />
               </TouchableOpacity>
@@ -134,14 +134,16 @@ export default function Detail({navigation}: ProfileProps) {
               <Text style={styles.number}>
                 #{convertNumber(pokemonStore.pokemonDetail.id)}
               </Text>
-              <Text style={styles.name}>{pokemonStore.pokemonDetail.name}</Text>
+              <Text numberOfLines={1} style={styles.name}>
+                {pokemonStore.pokemonDetail.name}
+              </Text>
             </View>
             <View style={styles.img}>
               <Image
                 style={{
                   transform: [{scale: catchMModal ? 0 : 1}],
-                  width: responsiveWidth(250),
-                  height: responsiveHeight(250),
+                  width: responsiveWidth(68),
+                  height: responsiveHeight(30),
                 }}
                 source={{
                   uri: imageUrl,
@@ -150,8 +152,8 @@ export default function Detail({navigation}: ProfileProps) {
             </View>
             <View style={styles.imgStand} />
             <Pokedex
-              width={responsiveWidth(600)}
-              height={responsiveHeight(600)}
+              width={responsiveWidth(150)}
+              height={responsiveHeight(100)}
               style={styles.pokedex}
             />
           </View>
@@ -168,7 +170,7 @@ export default function Detail({navigation}: ProfileProps) {
                 setCatchModal(true);
               }}
               style={styles.wrapperBtnCatch}>
-              <Text style={styles.btnCatch}>Catch</Text>
+              <Text style={styles.textBtnCatch}>Catch</Text>
             </TouchableOpacity>
           </View>
         </SafeAreaView>
@@ -182,10 +184,10 @@ const styles = StyleSheet.create({
     zIndex: 6,
   },
   lottiePokeBall: {
-    width: responsiveWidth(700),
-    height: responsiveHeight(700),
+    width: '150%',
+    height: '150%',
     position: 'absolute',
-    top: responsiveWidth(80),
+    top: '-30%',
     zIndex: 5,
   },
   catchModal: {
@@ -198,24 +200,18 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   wrapperDetail: {
-    height: responsiveHeight(390),
+    height: responsiveHeight(50),
     justifyContent: 'space-between',
     backgroundColor: COLORS.light_blue,
   },
   numberAndName: {
     zIndex: 1,
-    marginTop: responsiveWidth(15),
-  },
-  wrapperButton: {
-    height: responsiveHeight(100),
-    backgroundColor: COLORS.beige,
-    paddingHorizontal: responsiveWidth(20),
-    justifyContent: 'center',
+    marginTop: responsiveHeight(3),
+    paddingLeft: responsiveWidth(5),
   },
   pokedex: {
     position: 'absolute',
-    left: '-10%',
-    top: '0%',
+    top: '-40%',
   },
   tabBar: {
     backgroundColor: COLORS.beige,
@@ -224,29 +220,25 @@ const styles = StyleSheet.create({
     textTransform: 'none',
     fontWeight: '500',
     fontFamily: 'Nokia Cellphone FC',
-    fontSize: responsiveWidth(11),
+    fontSize: responsiveWidth(3),
   },
   backButton: {
-    height: responsiveHeight(40),
-    marginHorizontal: responsiveWidth(15),
-    marginTop: responsiveWidth(5),
     justifyContent: 'center',
+    marginTop: responsiveHeight(3),
+    paddingLeft: responsiveWidth(3),
   },
   button: {
     zIndex: 1,
   },
   number: {
-    paddingHorizontal: responsiveWidth(20),
-    paddingTop: responsiveWidth(10),
     fontFamily: 'Minecraftia-Regular',
     color: COLORS.light_grey,
-    fontSize: responsiveWidth(25),
+    fontSize: responsiveWidth(7),
   },
   name: {
     fontFamily: 'Nokia Cellphone FC',
     color: COLORS.blue,
-    fontSize: responsiveWidth(25),
-    paddingHorizontal: responsiveWidth(20),
+    fontSize: responsiveWidth(8),
     textTransform: 'capitalize',
   },
   img: {
@@ -255,27 +247,33 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    top: responsiveWidth(30),
+    top: '11%',
   },
   imgStand: {
     zIndex: 1,
     backgroundColor: COLORS.beige,
-    height: responsiveHeight(35),
-    borderTopLeftRadius: responsiveWidth(30),
-    borderTopRightRadius: responsiveWidth(30),
+    height: responsiveHeight(5),
+    borderTopLeftRadius: responsiveWidth(10),
+    borderTopRightRadius: responsiveWidth(10),
+  },
+  wrapperButton: {
+    height: responsiveHeight(10),
+    backgroundColor: COLORS.beige,
+    paddingHorizontal: responsiveWidth(5),
+    justifyContent: 'center',
   },
   wrapperBtnCatch: {
     width: '100%',
-    borderRadius: responsiveWidth(100),
+    borderRadius: responsiveWidth(10),
     height: 'auto',
-    padding: responsiveWidth(12),
+    paddingVertical: responsiveHeight(1.7),
     backgroundColor: COLORS.blue,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  btnCatch: {
-    fontSize: responsiveWidth(16),
+  textBtnCatch: {
+    fontSize: responsiveWidth(3.5),
     color: COLORS.white,
     fontFamily: 'Nokia Cellphone FC',
   },

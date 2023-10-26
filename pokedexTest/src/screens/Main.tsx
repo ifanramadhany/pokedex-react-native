@@ -33,13 +33,13 @@ const Main = () => {
           tabBarIcon: ({focused}) =>
             focused ? (
               <Pokeball
-                width={responsiveWidth(25)}
-                height={responsiveHeight(25)}
+                width={responsiveWidth(6)}
+                height={responsiveHeight(6)}
               />
             ) : (
               <PokeballOutline
-                width={responsiveWidth(25)}
-                height={responsiveHeight(25)}
+                width={responsiveWidth(6)}
+                height={responsiveHeight(6)}
               />
             ),
         }}
@@ -51,11 +51,11 @@ const Main = () => {
           // eslint-disable-next-line react/no-unstable-nested-components
           tabBarIcon: ({focused}) =>
             focused ? (
-              <Bag width={responsiveWidth(25)} height={responsiveHeight(25)} />
+              <Bag width={responsiveWidth(6)} height={responsiveHeight(6)} />
             ) : (
               <BagOutline
-                width={responsiveWidth(25)}
-                height={responsiveHeight(25)}
+                width={responsiveWidth(6)}
+                height={responsiveHeight(6)}
               />
             ),
         }}

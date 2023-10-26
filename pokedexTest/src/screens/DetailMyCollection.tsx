@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, useWindowDimensions} from 'react-native';
 import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
 import {
@@ -9,17 +9,27 @@ import {
   Text,
   Image,
   TouchableOpacity,
+  Modal,
+  BackHandler,
 } from 'react-native';
 import Pokedex from '../assets/svgs/pokedex.svg';
 import FavoriteStar from '../assets/svgs/favorite_star.svg';
-import {COLORS, responsiveHeight, responsiveWidth} from '../utils';
+import {
+  COLORS,
+  convertNumber,
+  responsiveHeight,
+  responsiveWidth,
+} from '../utils';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import {
   AboutContainer,
   MovesContainer,
   BaseStatusContainer,
 } from '../components';
-import {ProfileProps, renderTabBarProps, RouteType} from '../ts/types';
+import LottieView from 'lottie-react-native';
+import {renderTabBarProps, ProfileProps, RouteType} from '../ts/types';
+import rootStore from '../stores/_RootStore';
+import {Observer} from 'mobx-react';
 
 const renderScene = SceneMap({
   about: AboutContainer,
@@ -27,10 +37,11 @@ const renderScene = SceneMap({
   moves: MovesContainer,
 });
 
-export default function DetailMyCollection({navigation}: ProfileProps) {
+export default function Detail({navigation}: ProfileProps) {
+  const {pokemonStore} = rootStore;
   const layout = useWindowDimensions();
-
-  const [index, setIndex] = useState(0);
+  const [catchMModal, setCatchModal] = useState<boolean>(false);
+  const [index, setIndex] = useState<number>(0);
   const [routes] = useState<RouteType>([
     {key: 'about', title: 'About'},
     {key: 'baseStatus', title: 'Base Status'},
@@ -43,8 +54,7 @@ export default function DetailMyCollection({navigation}: ProfileProps) {
     backgroundColor: isDarkMode ? COLORS.black : COLORS.white,
   };
 
-  const imageUrl =
-    'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png';
+  const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonStore.pokemonDetail.id}.png`;
 
   const renderTabBar = (props: renderTabBarProps) => (
     <TabBar
@@ -57,116 +67,177 @@ export default function DetailMyCollection({navigation}: ProfileProps) {
     />
   );
 
+  const toHomeScreen = () => {
+    // pokemonStore.setPokemonDetail(null);
+    navigation.navigate('Main', {screen: 'Collection'});
+    return true;
+  };
+
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      toHomeScreen,
+    );
+
+    return () => backHandler.remove();
+  });
+
   return (
-    <SafeAreaView style={styles.safeAreaViewStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <View style={styles.wrapperDetail}>
-        <View style={styles.backButton}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              navigation.navigate('Main', {screen: 'Collection'});
-            }}>
-            <MaterialIcons
-              name="arrow-back-ios-new"
-              size={responsiveWidth(30)}
-              color={COLORS.white}
-            />
-          </TouchableOpacity>
-          <View style={styles.yourPokemonStar}>
-            <Text style={styles.yourPokemon}>Your Pokémon</Text>
-            <FavoriteStar
-              width={responsiveWidth(40)}
-              height={responsiveHeight(40)}
+    <Observer>
+      {() => (
+        <SafeAreaView style={styles.safeAreaViewStyle}>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor={backgroundStyle.backgroundColor}
+          />
+          <Modal transparent={true} visible={catchMModal}>
+            <View style={styles.catchModal}>
+              <LottieView
+                style={styles.lottiePokeBall}
+                source={require('../assets/lotties/congratulation_animation.json')}
+                autoPlay
+                loop
+              />
+              <Image
+                style={{
+                  transform: [{scale: catchMModal ? 1.5 : 0}],
+                  width: responsiveWidth(53),
+                  height: responsiveHeight(25),
+                }}
+                source={{
+                  uri: imageUrl,
+                }}
+              />
+              <Text
+                onPress={() => {
+                  setCatchModal(false);
+                }}
+                style={styles.catchButton}>
+                Catch Modal
+              </Text>
+            </View>
+          </Modal>
+          <View style={styles.wrapperDetail}>
+            <View style={styles.backButton}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  toHomeScreen();
+                }}>
+                <MaterialIcons
+                  name="arrow-back-ios-new"
+                  size={responsiveWidth(8)}
+                  color={COLORS.white}
+                />
+              </TouchableOpacity>
+              <View style={styles.yourPokemonStar}>
+                <Text style={styles.yourPokemon}>Your Pokémon</Text>
+                <FavoriteStar
+                  width={responsiveWidth(8.5)}
+                  height={responsiveHeight(8.5)}
+                />
+              </View>
+            </View>
+            <View style={styles.numberAndName}>
+              <Text style={styles.number}>
+                #{convertNumber(pokemonStore.pokemonDetail.id)}
+              </Text>
+              <Text numberOfLines={1} style={styles.name}>
+                {pokemonStore.pokemonDetail.name}
+              </Text>
+              <Text numberOfLines={1} style={styles.nickname}>
+                Jackson
+              </Text>
+            </View>
+            <View style={styles.img}>
+              <Image
+                style={{
+                  transform: [{scale: catchMModal ? 0 : 1}],
+                  width: responsiveWidth(68),
+                  height: responsiveHeight(30),
+                }}
+                source={{
+                  uri: imageUrl,
+                }}
+              />
+            </View>
+            <View style={styles.imgStand} />
+            <Pokedex
+              width={responsiveWidth(150)}
+              height={responsiveHeight(100)}
+              style={styles.pokedex}
             />
           </View>
-        </View>
-
-        <View style={styles.numberAndName}>
-          <Text style={styles.number}>#001</Text>
-          <Text style={styles.name}>Bulbasaur</Text>
-          <Text style={styles.nickname}>Jackson</Text>
-        </View>
-        <View style={styles.img}>
-          <Image
-            style={{
-              width: responsiveWidth(250),
-              height: responsiveHeight(250),
-            }}
-            source={{
-              uri: imageUrl,
-            }}
+          <TabView
+            navigationState={{index, routes}}
+            renderScene={renderScene}
+            onIndexChange={setIndex}
+            initialLayout={{width: layout.width}}
+            renderTabBar={renderTabBar}
           />
-        </View>
-        <View style={styles.imgStand} />
-        <Pokedex
-          width={responsiveWidth(600)}
-          height={responsiveHeight(600)}
-          style={styles.pokedex}
-        />
-      </View>
-      <TabView
-        navigationState={{index, routes}}
-        renderScene={renderScene}
-        onIndexChange={setIndex}
-        initialLayout={{width: layout.width}}
-        renderTabBar={renderTabBar}
-      />
-      <View style={styles.wrapperButton}>
-        <TouchableOpacity style={styles.wrapperBtnRename}>
-          <Text style={styles.btnCatch}>Rename</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.wrapperBtnRelease}>
-          <Text style={styles.btnCatch}>Release</Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+          <View style={styles.wrapperButton}>
+            <TouchableOpacity style={styles.wrapperBtnRename}>
+              <Text style={styles.textBtnCatch}>Rename</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.wrapperBtnRelease}>
+              <Text style={styles.textBtnCatch}>Release</Text>
+            </TouchableOpacity>
+          </View>
+        </SafeAreaView>
+      )}
+    </Observer>
   );
 }
 
 const styles = StyleSheet.create({
+  yourPokemonStar: {
+    flexDirection: 'row',
+    gap: responsiveWidth(1),
+    alignItems: 'center',
+    backgroundColor: COLORS.transparent_blue,
+    paddingRight: responsiveWidth(1.5),
+    paddingLeft: responsiveWidth(5),
+    borderRadius: responsiveWidth(10),
+    height: responsiveHeight(3),
+    marginRight: responsiveWidth(3),
+  },
+  yourPokemon: {
+    fontFamily: 'Nokia Cellphone FC',
+    color: COLORS.white,
+    fontSize: responsiveWidth(3),
+  },
+  catchButton: {
+    zIndex: 6,
+  },
+  lottiePokeBall: {
+    width: '150%',
+    height: '150%',
+    position: 'absolute',
+    top: '-30%',
+    zIndex: 5,
+  },
+  catchModal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLORS.transparent_grey,
+  },
   safeAreaViewStyle: {
     height: '100%',
   },
   wrapperDetail: {
-    height: responsiveHeight(390),
+    height: responsiveHeight(50),
     justifyContent: 'space-between',
     backgroundColor: COLORS.light_blue,
   },
   numberAndName: {
     zIndex: 1,
-    marginTop: responsiveWidth(15),
-  },
-  wrapperButton: {
-    height: responsiveHeight(100),
-    backgroundColor: COLORS.beige,
-    paddingHorizontal: responsiveWidth(20),
-    paddingVertical: responsiveWidth(23),
-    justifyContent: 'center',
-    flexDirection: 'row',
-    gap: responsiveWidth(15),
-  },
-  yourPokemonStar: {
-    flexDirection: 'row',
-    gap: responsiveWidth(5),
-    alignItems: 'center',
-    backgroundColor: COLORS.transparent_blue,
-    paddingRight: responsiveWidth(5),
-    paddingLeft: responsiveWidth(25),
-    borderRadius: responsiveWidth(30),
-  },
-  yourPokemon: {
-    fontFamily: 'Nokia Cellphone FC',
-    color: COLORS.white,
-    fontSize: responsiveWidth(11),
+    marginTop: responsiveHeight(3),
+    paddingLeft: responsiveWidth(5),
   },
   pokedex: {
     position: 'absolute',
-    left: '-10%',
-    top: '0%',
+    top: '-40%',
   },
   tabBar: {
     backgroundColor: COLORS.beige,
@@ -175,75 +246,80 @@ const styles = StyleSheet.create({
     textTransform: 'none',
     fontWeight: '500',
     fontFamily: 'Nokia Cellphone FC',
-    fontSize: responsiveWidth(11),
+    fontSize: responsiveWidth(3),
   },
   backButton: {
-    height: responsiveHeight(40),
-    marginHorizontal: responsiveWidth(15),
-    marginTop: responsiveWidth(5),
+    marginTop: responsiveHeight(3),
+    paddingLeft: responsiveWidth(3),
     justifyContent: 'space-between',
     alignItems: 'center',
     flexDirection: 'row',
+    zIndex: 99,
   },
   button: {
     zIndex: 1,
   },
   number: {
-    paddingHorizontal: responsiveWidth(20),
-    paddingTop: responsiveWidth(10),
     fontFamily: 'Minecraftia-Regular',
-    color: COLORS.white,
-    fontSize: responsiveWidth(25),
+    color: COLORS.light_grey,
+    fontSize: responsiveWidth(7),
   },
   name: {
     fontFamily: 'Nokia Cellphone FC',
     color: COLORS.blue,
-    fontSize: responsiveWidth(25),
-    paddingHorizontal: responsiveWidth(20),
+    fontSize: responsiveWidth(8),
+    textTransform: 'capitalize',
   },
   nickname: {
     fontFamily: 'Nokia Cellphone FC',
     color: COLORS.yellow,
-    fontSize: responsiveWidth(20),
-    paddingHorizontal: responsiveWidth(20),
+    textTransform: 'capitalize',
+    fontSize: responsiveWidth(8),
   },
   img: {
     color: COLORS.black,
-    zIndex: 2,
+    zIndex: 99,
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    top: responsiveWidth(30),
+    top: '11%',
   },
   imgStand: {
     zIndex: 1,
     backgroundColor: COLORS.beige,
-    height: responsiveHeight(35),
-    borderTopLeftRadius: responsiveWidth(30),
-    borderTopRightRadius: responsiveWidth(30),
+    height: responsiveHeight(5),
+    borderTopLeftRadius: responsiveWidth(10),
+    borderTopRightRadius: responsiveWidth(10),
+  },
+  wrapperButton: {
+    height: responsiveHeight(10),
+    backgroundColor: COLORS.beige,
+    paddingHorizontal: responsiveWidth(5),
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: responsiveWidth(3),
   },
   wrapperBtnRename: {
-    width: '45%',
-    borderRadius: responsiveWidth(100),
-    height: 'auto',
-    padding: responsiveWidth(12),
+    width: '49%',
+    borderRadius: responsiveWidth(10),
     backgroundColor: COLORS.green,
+    paddingVertical: responsiveHeight(1.7),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
   wrapperBtnRelease: {
-    width: '45%',
-    borderRadius: responsiveWidth(100),
-    height: 'auto',
-    padding: responsiveWidth(12),
+    width: '49%',
+    borderRadius: responsiveWidth(10),
     backgroundColor: COLORS.red,
+    paddingVertical: responsiveHeight(1.7),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  btnCatch: {
-    fontSize: responsiveWidth(16),
+  textBtnCatch: {
+    fontSize: responsiveWidth(3.5),
     color: COLORS.white,
     fontFamily: 'Nokia Cellphone FC',
   },

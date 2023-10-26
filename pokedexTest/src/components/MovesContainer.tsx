@@ -9,7 +9,7 @@ import React from 'react';
 import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import rootStore from '../stores/_RootStore';
 import {Observer} from 'mobx-react';
-import {COLORS, responsiveWidth} from '../utils';
+import {COLORS, responsiveWidth, responsiveHeight} from '../utils';
 import {MovesProps, IndexProps} from '../ts/types';
 
 const MovesContainer = () => {
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: COLORS.beige,
     flex: 1,
-    paddingHorizontal: responsiveWidth(13),
+    paddingHorizontal: responsiveWidth(5),
   },
   aboutCard: {
     width: '100%',
@@ -46,12 +46,12 @@ const styles = StyleSheet.create({
     borderBottomColor: COLORS.light_grey,
     borderBottomWidth: 1,
     flexDirection: 'row',
-    paddingVertical: responsiveWidth(17),
+    paddingVertical: responsiveHeight(2),
   },
   text: {
     width: '100%',
     fontFamily: 'Nokia Cellphone FC',
-    fontSize: responsiveWidth(13),
+    fontSize: responsiveWidth(3),
     textAlign: 'center',
     textShadowColor: COLORS.yellow,
     textShadowOffset: {width: -1, height: 1},

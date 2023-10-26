@@ -29,6 +29,8 @@ const Home = ({navigation, route}: ProfileProps) => {
   const isDarkMode = useColorScheme() === 'dark';
   const {pokemonStore} = rootStore;
   const [isSearch, setIsSearch] = useState<boolean>(false);
+  const [oneItemOnly, setOneItemOnly] = useState<boolean>(false);
+  const [inputSearch, setInputSearch] = useState<string>();
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? COLORS.black : COLORS.white,
@@ -39,6 +41,14 @@ const Home = ({navigation, route}: ProfileProps) => {
     pokemonStore.fetchAllPokemons();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (pokemonStore.resultBySearch.length === 1) {
+      setOneItemOnly(true);
+    } else {
+      setOneItemOnly(false);
+    }
+  }, [inputSearch, pokemonStore.resultBySearch.length]);
 
   const renderLoader = () => {
     return (
@@ -95,6 +105,7 @@ const Home = ({navigation, route}: ProfileProps) => {
   });
 
   const onChangeTextHandler = (input: string) => {
+    setInputSearch(input);
     pokemonStore.setPokemonFilterByName([]);
     if (input.trim().length === 0) {
       setIsSearch(false);
@@ -106,7 +117,7 @@ const Home = ({navigation, route}: ProfileProps) => {
     }
   };
 
-  let oneItemOnly = pokemonStore.resultBySearch.length === 1;
+  // let oneItemOnly = pokemonStore.resultBySearch.length === 1;
 
   const renderItem = ({item}: any) => (
     <Card
@@ -148,8 +159,8 @@ const Home = ({navigation, route}: ProfileProps) => {
                 onChangeText={newText => onChangeTextHandler(newText)}
               />
               <Pokedex
-                width={responsiveWidth(220)}
-                height={responsiveHeight(220)}
+                width={responsiveWidth(50)}
+                height={responsiveHeight(38)}
                 style={styles.pokedex}
               />
             </View>
@@ -188,15 +199,15 @@ const Home = ({navigation, route}: ProfileProps) => {
 const styles = StyleSheet.create({
   listEmptyWrapper: {
     width: '100%',
-    paddingVertical: responsiveWidth(40),
+    paddingVertical: responsiveHeight(3),
   },
   listEmptyText: {
     fontFamily: 'Minecraftia-Regular',
     color: COLORS.light_black,
-    fontSize: responsiveWidth(10),
+    fontSize: responsiveWidth(2.5),
   },
   loaderStyle: {
-    marginVertical: responsiveWidth(10),
+    marginVertical: responsiveWidth(2),
     alignItems: 'center',
   },
   safeAreaViewStyle: {
@@ -206,28 +217,28 @@ const styles = StyleSheet.create({
   },
   contentContainerStyle: {
     width: '100%',
-    padding: responsiveWidth(4),
+    padding: responsiveWidth(2),
   },
   contentContainerStyleShow: {
     width: '100%',
-    padding: responsiveWidth(4),
+    padding: responsiveWidth(1),
   },
   contentContainerStyleHidden: {
     width: '100%',
-    padding: responsiveWidth(4),
+    padding: responsiveWidth(1),
     display: 'none',
   },
   searchWrapper: {
     width: '100%',
-    height: responsiveHeight(140),
+    height: responsiveHeight(14),
     backgroundColor: COLORS.blue,
     elevation: 30,
-    paddingBottom: 1,
+    paddingBottom: responsiveHeight(0.1),
   },
   title: {
-    fontSize: responsiveWidth(28),
-    marginHorizontal: responsiveWidth(10),
-    marginBottom: responsiveWidth(9),
+    fontSize: responsiveWidth(7.5),
+    marginHorizontal: responsiveWidth(3),
+    marginBottom: responsiveWidth(1),
     color: COLORS.white,
     fontFamily: 'Nokia Cellphone FC',
   },
@@ -241,23 +252,23 @@ const styles = StyleSheet.create({
   },
   pokedex: {
     position: 'absolute',
-    left: '61%',
-    top: '-50%',
+    left: '75%',
+    top: '-110%',
   },
   inputSearch: {
     height: 'auto',
     zIndex: 1,
-    paddingHorizontal: responsiveWidth(10),
-    paddingVertical: responsiveWidth(6),
-    marginBottom: responsiveWidth(20),
-    marginHorizontal: responsiveWidth(10),
-    borderRadius: responsiveWidth(10),
-    borderWidth: 2,
+    paddingHorizontal: responsiveWidth(3),
+    paddingVertical: responsiveHeight(1),
+    marginBottom: responsiveWidth(2),
+    marginHorizontal: responsiveWidth(3),
+    borderRadius: responsiveWidth(2),
+    borderWidth: responsiveWidth(0.5),
     borderColor: COLORS.light_grey,
     backgroundColor: COLORS.white,
     fontFamily: 'Minecraftia-Regular',
     color: COLORS.light_black,
-    fontSize: responsiveWidth(12),
+    fontSize: responsiveWidth(2.7),
   },
   listWrapper: {
     width: '100%',
