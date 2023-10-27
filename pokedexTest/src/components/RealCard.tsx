@@ -80,7 +80,7 @@ const RealCard = ({navigation, item, oneItemOnly}: RealCardProps) => {
             )}
             <Image
               style={{
-                width: responsiveWidth(22),
+                width: responsiveHeight(10),
                 height: responsiveHeight(10),
               }}
               source={{
@@ -91,8 +91,8 @@ const RealCard = ({navigation, item, oneItemOnly}: RealCardProps) => {
           </View>
         </View>
         <Pokedex
-          width={responsiveWidth(36)}
-          height={responsiveHeight(36)}
+          width={responsiveHeight(17)}
+          height={responsiveHeight(17)}
           style={styles.pokedexInCard}
         />
       </View>
@@ -111,7 +111,8 @@ const styles = StyleSheet.create({
   pokedexInCard: {
     transform: [{rotate: '10deg'}],
     position: 'absolute',
-    left: '35%',
+    top: '71%',
+    left: '45%',
   },
   nameAndNumber: {
     width: '100%',
@@ -157,6 +158,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'flex-end',
     right: '10%',
+    bottom: '4%',
   },
   contentCard: {
     width: '100%',

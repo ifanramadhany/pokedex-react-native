@@ -28,7 +28,7 @@ const CollectionCard = ({navigation}: ProfileProps) => {
           <View style={styles.img}>
             <Image
               style={{
-                width: responsiveWidth(20),
+                width: responsiveHeight(9),
                 height: responsiveHeight(9),
               }}
               source={{
@@ -58,8 +58,8 @@ const CollectionCard = ({navigation}: ProfileProps) => {
         </View>
 
         <Pokedex
-          width={responsiveWidth(35)}
-          height={responsiveHeight(15)}
+          width={responsiveHeight(17)}
+          height={responsiveHeight(17)}
           style={styles.pokedexInCard}
         />
       </View>

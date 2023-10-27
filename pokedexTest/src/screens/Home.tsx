@@ -159,12 +159,13 @@ const Home = ({navigation, route}: ProfileProps) => {
                 onChangeText={newText => onChangeTextHandler(newText)}
               />
               <Pokedex
-                width={responsiveWidth(50)}
-                height={responsiveHeight(38)}
+                width={responsiveHeight(28)}
+                height={responsiveHeight(28)}
                 style={styles.pokedex}
               />
             </View>
           </View>
+          <View style={styles.borderBottom} />
           <FlatList
             contentContainerStyle={[
               isSearch
@@ -197,6 +198,13 @@ const Home = ({navigation, route}: ProfileProps) => {
 };
 
 const styles = StyleSheet.create({
+  borderBottom: {
+    height: responsiveHeight(0.1),
+    width: '100%',
+    backgroundColor: COLORS.blue,
+    zIndex: 5,
+    elevation: 30,
+  },
   listEmptyWrapper: {
     width: '100%',
     paddingVertical: responsiveHeight(3),
@@ -232,8 +240,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: responsiveHeight(14),
     backgroundColor: COLORS.blue,
-    elevation: 30,
-    paddingBottom: responsiveHeight(0.1),
   },
   title: {
     fontSize: responsiveWidth(7.5),
@@ -252,8 +258,8 @@ const styles = StyleSheet.create({
   },
   pokedex: {
     position: 'absolute',
-    left: '75%',
-    top: '-110%',
+    left: '70%',
+    top: '-60%',
   },
   inputSearch: {
     height: 'auto',

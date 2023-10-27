@@ -14,7 +14,6 @@ import {getRequest} from '../api/api';
 
 const Card = ({navigation, item, oneItemOnly}: CardProps) => {
   const [pokemonDetail, setPokeomnDetail] = useState<any[] | {} | null>(null);
-
   const fetchPokemonDetail = async () => {
     try {
       const response: ApiResponse = await getRequest(`/pokemon/${item.name}`);

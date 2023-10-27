@@ -46,8 +46,8 @@ const Welcome = ({navigation}: ProfileProps) => {
       />
       <View style={styles.wrapperPkmnIcon}>
         <PokemonIcon
-          width={responsiveWidth(75)}
-          height={responsiveHeight(18)}
+          width={responsiveHeight(35)}
+          height={responsiveHeight(35)}
         />
         <View style={styles.wrapperOwnerName}>
           <Text style={styles.ownerName}>by Ifan Ramadhany</Text>
@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
   wrapperOwnerName: {
     width: responsiveWidth(80),
     alignItems: 'flex-end',
+    bottom: responsiveHeight(10),
   },
   ownerName: {
     color: COLORS.blue,
@@ -91,7 +92,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
     paddingHorizontal: responsiveWidth(2),
-    paddingTop: responsiveHeight(20),
+    paddingTop: responsiveHeight(10),
   },
   wrapperBtnStart: {
     height: responsiveHeight(10),

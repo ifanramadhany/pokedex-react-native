@@ -37,6 +37,7 @@ const Collection = ({navigation, route}: ProfileProps) => {
           <Text style={styles.title}>Your Pokémon</Text>
         </View>
       </View>
+      <View style={styles.borderBottom} />
       <ScrollView
         style={styles.scrollViewStyle}
         contentInsetAdjustmentBehavior="automatic">
@@ -62,6 +63,13 @@ const Collection = ({navigation, route}: ProfileProps) => {
 };
 
 const styles = StyleSheet.create({
+  borderBottom: {
+    height: responsiveHeight(0.1),
+    width: '100%',
+    backgroundColor: COLORS.blue,
+    zIndex: 5,
+    elevation: 30,
+  },
   safeAreaViewStyle: {
     flex: 1,
     justifyContent: 'center',
@@ -75,8 +83,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: responsiveHeight(8),
     backgroundColor: COLORS.blue,
-    elevation: 30,
-    paddingBottom: responsiveHeight(0.1),
   },
   title: {
     fontSize: responsiveWidth(4),

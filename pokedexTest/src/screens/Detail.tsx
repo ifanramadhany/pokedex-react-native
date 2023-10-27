@@ -100,8 +100,8 @@ export default function Detail({navigation}: ProfileProps) {
               <Image
                 style={{
                   transform: [{scale: catchMModal ? 1.5 : 0}],
-                  width: responsiveWidth(53),
-                  height: responsiveHeight(25),
+                  width: responsiveHeight(26),
+                  height: responsiveHeight(26),
                 }}
                 source={{
                   uri: imageUrl,
@@ -142,8 +142,8 @@ export default function Detail({navigation}: ProfileProps) {
               <Image
                 style={{
                   transform: [{scale: catchMModal ? 0 : 1}],
-                  width: responsiveWidth(68),
-                  height: responsiveHeight(30),
+                  width: responsiveHeight(33),
+                  height: responsiveHeight(33),
                 }}
                 source={{
                   uri: imageUrl,
@@ -152,8 +152,8 @@ export default function Detail({navigation}: ProfileProps) {
             </View>
             <View style={styles.imgStand} />
             <Pokedex
-              width={responsiveWidth(150)}
-              height={responsiveHeight(100)}
+              width={responsiveHeight(70)}
+              height={responsiveHeight(70)}
               style={styles.pokedex}
             />
           </View>
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
   },
   pokedex: {
     position: 'absolute',
-    top: '-40%',
+    top: 0,
   },
   tabBar: {
     backgroundColor: COLORS.beige,
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    top: '11%',
+    top: '13%',
   },
   imgStand: {
     zIndex: 1,
