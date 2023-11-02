@@ -222,12 +222,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: COLORS.white,
   },
   contentContainerStyle: {
     width: '100%',
     padding: responsiveWidth(2),
   },
   contentContainerStyleShow: {
+    backgroundColor: COLORS.white,
     width: '100%',
     padding: responsiveWidth(1),
   },

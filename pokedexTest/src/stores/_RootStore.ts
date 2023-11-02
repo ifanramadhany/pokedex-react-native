@@ -1,10 +1,10 @@
 import UserStore from './UserStore';
-import CounterStore from './CounterStore';
+import AuthStore from './AuthStore';
 import PokemonStore from './PokemonStore';
 
 class RootStore {
   userStore = UserStore;
-  counterStore = CounterStore;
+  authStore = AuthStore;
   pokemonStore = PokemonStore;
 }
 

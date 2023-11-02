@@ -32,7 +32,7 @@ export function arrayToString(data: any[], type: string) {
 }
 
 export const COLORS = {
-  white: '#F1EFEF',
+  white: '#FFFFFF',
   black: '#191717',
   blue: '#375DAA',
   yellow: '#FFCC01',

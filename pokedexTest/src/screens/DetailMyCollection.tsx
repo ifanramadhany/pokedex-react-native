@@ -224,6 +224,7 @@ const styles = StyleSheet.create({
   },
   safeAreaViewStyle: {
     height: '100%',
+    backgroundColor: COLORS.white,
   },
   wrapperDetail: {
     height: responsiveHeight(50),
