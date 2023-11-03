@@ -6,7 +6,6 @@
  */
 
 import React, {useEffect} from 'react';
-import CookieManager from '@react-native-cookies/cookies';
 import {
   SafeAreaView,
   StatusBar,
@@ -27,26 +26,42 @@ import {
 } from '@react-native-google-signin/google-signin';
 import Config from 'react-native-config';
 import rootStore from '../stores/_RootStore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Welcome = ({navigation}: ProfileProps) => {
   const isDarkMode = useColorScheme() === 'dark';
-  const {authStore} = rootStore;
+  const {authStore, globalStore} = rootStore;
   const backgroundStyle = {
     backgroundColor: isDarkMode ? COLORS.black : COLORS.white,
   };
 
+  const storeData = async (object: {email: string; isLogin: boolean}) => {
+    try {
+      const jsonValue = JSON.stringify(object);
+      await AsyncStorage.setItem('com.pokedextest', jsonValue);
+      return true;
+    } catch (error) {
+      console.log(error, 'error - STORE_DATA_ASYNC_STORAGE');
+      return error;
+    }
+  };
+
   const toHomeScreen = () => {
     onGoogleButtonPress().then(data => {
-      authStore.setIsAuth(true);
-      console.log(JSON.stringify(data, null, 2));
       const userEmail = data?.user.email || '';
-      navigation.navigate('Main', {screen: 'Main'});
-      CookieManager.set('http://ifan.com', {
-        name: 'com.pokedextest',
-        value: userEmail,
-      }).then(done => {
-        console.log('CookieManager.set =>', done);
-      });
+      authStore.setIsAuth(true);
+      // console.log(JSON.stringify(data, null, 2));
+      storeData({email: userEmail, isLogin: true})
+        .then(result => {
+          // Item stored successfully
+          if (result) {
+            navigation.navigate('Main', {screen: 'Main'});
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        })
+        .finally(() => globalStore.setIsLoading(false));
     });
   };
 
@@ -57,12 +72,14 @@ const Welcome = ({navigation}: ProfileProps) => {
   }, []);
 
   async function onGoogleButtonPress() {
+    globalStore.setIsLoading(true);
     try {
       // Check if your device supports Google Play
       await GoogleSignin.hasPlayServices({showPlayServicesUpdateDialog: true});
       // Get the users ID token
       const {idToken, user} = await GoogleSignin.signIn();
-      console.log(idToken, user);
+      console.log(JSON.stringify(idToken, null, 2));
+      console.log(JSON.stringify(user, null, 2));
       // Create a Google credential with the token
       const googleCredential = auth.GoogleAuthProvider.credential(idToken);
 
@@ -82,6 +99,8 @@ const Welcome = ({navigation}: ProfileProps) => {
         // some other error happened
         console.log('error - GOOGLE_SIGN_IN');
       }
+
+      return error;
     }
   }
 
@@ -107,8 +126,8 @@ const Welcome = ({navigation}: ProfileProps) => {
             toHomeScreen();
           }}>
           <GoogleIcon
-            width={responsiveHeight(3)}
-            height={responsiveHeight(3)}
+            width={responsiveHeight(2.2)}
+            height={responsiveHeight(2.2)}
           />
           <Text style={styles.textBtnStart}>Sign in with Google</Text>
         </TouchableOpacity>
@@ -154,7 +173,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: responsiveWidth(4),
+    gap: responsiveWidth(3),
     paddingVertical: responsiveHeight(1.7),
   },
   textBtnStart: {

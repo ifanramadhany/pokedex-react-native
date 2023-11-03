@@ -6,37 +6,60 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import CookieManager from '@react-native-cookies/cookies';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Welcome, Main, Detail, DetailMyCollection} from './screens';
 import rootStore from './stores/_RootStore';
 import {Provider as MobXProvider, observer} from 'mobx-react';
 import {RootStackParamList} from './ts/types';
+import {View, ActivityIndicator, StyleSheet} from 'react-native';
+import {COLORS, responsiveHeight} from './utils';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const App = observer(() => {
-  const [getCookiesFinished, setGetCookiesFinished] = useState<boolean>(false);
+  const [getAsyncStorage, setGetAsyncStorage] = useState<boolean>(false);
   const [welcomeScreen, setWelcomeScreen] = useState<boolean>(false);
-  const {authStore} = rootStore;
+  const {authStore, globalStore} = rootStore;
+
+  const getData = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('com.pokedextest');
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (error) {
+      console.log(error, 'error - GET_DATA_ASYNC_STORAGE');
+    }
+  };
 
   useEffect(() => {
-    CookieManager.get('http://ifan.com')
-      .then(cookies => {
-        if (cookies.hasOwnProperty('com.pokedextest')) {
-          console.log(cookies, 'cookies');
-          if (cookies['com.pokedextest'].value === 'ifanpersie14@gmail.com') {
-            setWelcomeScreen(true);
-            authStore.setIsAuth(true);
-          }
+    getData()
+      .then(data => {
+        console.log(data);
+        if (data?.isLogin) {
+          setWelcomeScreen(true);
+          authStore.setIsAuth(true);
+        } else {
+          setWelcomeScreen(false);
+          authStore.setIsAuth(false);
         }
       })
-      .finally(() => setGetCookiesFinished(true));
-  }, [authStore, authStore.isAuth]);
+      .finally(() => setGetAsyncStorage(true));
+  }, [authStore]);
+
+  const GlobalLoadingComponent = () => {
+    return (
+      <View style={styles.loadingStyle}>
+        <ActivityIndicator
+          size={responsiveHeight(5)}
+          color={COLORS.light_blue}
+        />
+      </View>
+    );
+  };
 
   return (
-    getCookiesFinished && (
+    getAsyncStorage && (
       <MobXProvider store={rootStore}>
         <NavigationContainer>
           <Stack.Navigator
@@ -44,7 +67,7 @@ const App = observer(() => {
               headerShown: false,
             }}
             initialRouteName={welcomeScreen ? 'Main' : 'Welcome'}>
-            {rootStore.authStore.isAuth && (
+            {authStore.isAuth && (
               <>
                 <Stack.Screen name="Main" component={Main} />
                 <Stack.Screen name="Detail" component={Detail} />
@@ -58,10 +81,21 @@ const App = observer(() => {
               <Stack.Screen name="Welcome" component={Welcome} />
             )}
           </Stack.Navigator>
+          {globalStore.isLoading && <GlobalLoadingComponent />}
         </NavigationContainer>
       </MobXProvider>
     )
   );
+});
+
+const styles = StyleSheet.create({
+  loadingStyle: {
+    height: '100%',
+    width: '100%',
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default App;
